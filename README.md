@@ -2,6 +2,10 @@
 
 Welcome!
 
-## THIS PROJECT IS STILL A WORK IN PROGRESS! None of it is fully functional at the moment.
+This is a project for Team 694's electronic scouting app.
 
-Please stand by while we make it work!
+Links to the Mockups:
+https://docs.google.com/drawings/d/1ZWl9sE02DKsYvL4JP_mu2yc5OFd-z7JjX5eFQU9Ef9U/edit
+https://docs.google.com/drawings/d/1NqgO43yPlPTgbYq8n7eVK1tXLD4HYjJI8TZXJ4iULrw/edit
+https://docs.google.com/drawings/d/18vgrbZ7WQyQnrOBFGbzAosF7xDzDTSpEeo9OjJSiL_k/edit
+https://docs.google.com/drawings/d/1aEROpMPvtoTEyYOW4LgFZZEUKgj_O7Lbcu7hejAqZk8/edit
