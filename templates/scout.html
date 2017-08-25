@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> Scout </title> 
+    <!--TODO: Maybe it would be ligher on the server if we didn't store these locally? -->
+    <script type="text/javascript" src="/lib/jquery-3.2.1.min.js"> </script>
+    <script type="text/javascript" src="/lib/mustache.min.js"> </script>
+
+    <!-- This is temporary. TODO: Make a static css file -->
+    <style>
+      .binary_button_yes {
+          color: white;
+          background-color: #4CAF50;
+      }
+      .binary_button_no {
+          color: white;
+          background-color: #f44336;
+      }
+      .binary_button_blank {
+          background-color: #e7e7e7; 
+      }
+    </style>
+
+    <!-- Form submission handled here -->
+    <script type="text/javascript">
+        function submit_data() {
+            $.ajax({
+                url: "/scout",
+                type: "post",
+                data: $("#scout_form").serialize(),
+                success:function() {
+                    document.getElementById("success_log").innerHTML = "Successfully updated!";
+                },
+                error: function() {
+                    document.getElementById("success_log").innerHTML = "Failed to update. Try using QR (once we get that up and running)";
+                },
+                timeout: 2000
+            });
+        }
+    </script>
+
+
+    <!-- TEMPLATES -->
+
+    <!-- Template handler script -->
+    <script type="text/javascript">
+        function counter_change(id, change) {
+            var field = document.getElementById(id + "_input");
+            var val = parseInt (field.value);
+            field.value = val + change;
+        }
+
+        function button_change(id, state) {
+            var yes = document.getElementById(id + "_button_yes");
+            var no = document.getElementById(id + "_button_no");
+            var radio_yes = document.getElementById(id + "_button_radio_yes");
+            var radio_no = document.getElementById(id + "_button_radio_no");
+
+            if (state) {
+                yes.value = 1;
+                no.value = 0;
+
+                radio_yes.checked = "checked";
+                radio_no.checked = "";
+
+                yes.className="binary_button_yes";
+                no.className="binary_button_blank";
+            } else {
+                yes.value = 0;
+                no.value = 1;
+
+                radio_yes.checked = "";
+                radio_no.checked = "checked";
+                
+                yes.className="binary_button_blank";
+                no.className="binary_button_no";
+            }
+        }
+    </script>
+
+    <!-- A counter. Buttons on left and right increment and decrement
+         the central value by 1 -->
+    <script id="counter_template" type="x-tmpl-mustache">
+      {{name}}: <br>
+      <button id="{{id}}_minus" type="button" onclick="counter_change('{{id}}', -1)"> - </button> 
+      <input id="{{id}}_input" type="text" name="{{id}}_counter" value="0"> </input>
+      <button id="{{id}}_plus" type="button" onclick="counter_change('{{id}}', 1)"> + </button>
+      <br><br>
+    </script>
+
+    <!-- Two big buttons, Yes and No that highlight when selected -->
+    <script id="binary_button_template" type="x-tmpl-mustache">
+      {{name}}: <br>
+      <button id="{{id}}_button_yes" type="button" class="binary_button_blank" value="0" onclick="button_change('{{id}}', true)"> Yes </button>
+      <button id="{{id}}_button_no" type="button" class="binary_button_blank" value="1" onclick="button_change('{{id}}', false)"> No  </button>
+      <input id="{{id}}_button_radio_yes" type="radio" name="{{id}}_binary_button" value="yes" hidden>
+      <input id="{{id}}_button_radio_no" type="radio" name="{{id}}_binary_button" value="no" checked="checked" hidden>
+      <br><br>
+    </script>
+
+
+  </head>
+  <body>
+    <form id="scout_form">
+        Your Name: <input id="field_name" type="text" name="name"> <br>
+      Team Number: <input id="field_team_number" type="text" name="team_number"> <br>
+      Match Number: <input id="field_match_number"type="text" name="match_number"> <br>
+      <div id="auton_form"> 
+        <!-- These divs are here so we can place our templated inputs inside of them -->
+        <div id="a_cross"></div>
+        Successful Gear? <br>
+          <input type="radio" name="a_gear" value="yes"> Yes <br>
+          <input type="radio" name="a_gear" value="tried"> No, but attempted to <br>
+          <input type="radio" name="a_gear" value="no" checked="checked"> No, didn't try <br>
+        Gear Routine <br>
+          <input type="radio" name="a_gear_routine" value="hp"> Human Player Peg<br>
+          <input type="radio" name="a_gear_routine" value="center"> Center Peg <br>
+          <input type="radio" name="a_gear_routine" value="boiler"> Boiler peg<br>
+          <input type="radio" name="a_gear_routine" value="none" checked="checked"> None<br>
+
+        <div id="a_fuel"></div>
+        <div id="a_hopper"></div>
+      </div>
+      
+      <br><br>
+      
+      <div id="teleop_form"> 
+        <div id="t_gear"></div>
+        <div id="t_drop"></div>
+        <div id="t_fuel"></div>
+        <div id="t_climb"></div>
+        Comments: <br>
+        <textarea name="form_comments" cols="50" rows="10"> </textarea>
+        <div id="t_yellow_card"></div>
+      </div>
+
+      <!-- Tell whether sending was successful here -->
+      <p id="success_log"><p>
+      
+      <button type="button" onclick="submit_data()"> Submit </button>
+
+    </form>
+
+
+    <script>
+      var counter_template = document.getElementById("counter_template").innerHTML;
+      var binary_button_template = document.getElementById("binary_button_template").innerHTML;
+
+      Mustache.parse(counter_template);
+      Mustache.parse(binary_button_template);
+
+      // Adds a counter element within a given div
+      function add_counter(div, name, id) {
+          var rendered = Mustache.render(counter_template, {name: name, id: id});
+          document.getElementById(div).innerHTML += rendered;
+      }
+
+      // Adds a binary button element within a given div
+      function add_binary_button(div, name, id) {
+          var rendered = Mustache.render(binary_button_template, {name: name, id: id});
+          document.getElementById(div).innerHTML += rendered;
+      }
+
+      
+      // FORM ITEMS
+      add_binary_button("a_cross", "Crossed the Green Line?", "cross");
+      add_counter("a_fuel", "Fuel Scored (kPa)", "kpa_auton");
+      add_counter("a_hopper", "Hoppers Triggered", "hopper_count");
+
+      add_counter("t_gear", "Gears Scored", "gear_score");
+      add_counter("t_drop", "Gears Dropped", "gear_drop");
+      add_counter("t_fuel", "Fuel Scored", "kpa_teleop");
+      add_binary_button("t_climb", "Climb?", "climb");
+      add_binary_button("t_yellow_card", "Yellow Card?", "yellow_card");
+
+
+    </script>
+  </body>
+</html>
+
