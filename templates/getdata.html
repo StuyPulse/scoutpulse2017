@@ -1,0 +1,117 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> Scout Data </title> 
+    <!--TODO: Maybe it would be ligher on the server if we didn't store these locally? -->
+    <script type="text/javascript" src="/lib/jquery-3.2.1.min.js"> </script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  
+    <script type="text/javascript">
+
+        // Which values should be interpreted as booleans, and not as integers
+        const BOOLEANS = ["cross_green_line", "climb", "yellow_card"];
+
+        function get_data(team_number, match_number) {
+            $.ajax({
+                url: "/getdata?match_number=" + match_number + "&team_number=" + team_number,
+                type: "GET",
+                success: function(data) {build_table(data, team_number !== "", match_number !== "");}
+            }); 
+        }
+
+        // Gets the table data from a specific data object 
+        // (not from the whole list of data objects)
+        //
+        // avoiders: List of keys to avoid
+        // highlighter: What key to highlight
+        function get_table_data(data, avoiders, highlighter) {
+            var innerTable = "";
+            var header = "";
+
+            Object.keys(data).forEach(function(element) {
+              // If we don't have an avoider
+              
+              if (avoiders.indexOf(element) <= -1) {
+
+                    // if our element needs to be highlighted
+                    if (element === highlighter) {
+                      header = "<tr><th> <center><b><i>" + element + " : " + data[element] + "</i></b></center><br></th></tr>";
+                    }
+
+                    var value = data[element];
+                    // If we're dealing with a boolean
+                    if (BOOLEANS.indexOf(element) > -1) {
+                        if (value === "0") value = "NO";
+                        else value = "YES";
+                    }
+
+                    innerTable += "<tr>";
+                    innerTable += "<th> " + element + " </th>";
+                    innerTable += "<th> " + value + " </th>";
+                    innerTable += "</tr>";
+                }
+            });
+            innerTable += "<tr><th><br><br></th><tr>"; // Buffer zone
+
+            return header + innerTable;
+        }
+
+        function build_table(data, specific_team, specific_match) {
+            var innerTable = "";
+            if (data.length == 0) {
+              innerTable = "<tr><th>No data found</th></tr>";
+            } else {
+                if (specific_team && specific_match) {
+                    $("#header").val("Team " + data[0].team_number + ", for Match " + data[0].match_number);
+                    // Simply display all information in a table
+                    innerTable = get_table_data(data[0], ["id", "match_number", "team_number"], "");
+                } else if (specific_team) {
+                    $("#header").val("Team " + data[0].team_number + ", for ALL Matches");
+                    data.forEach( function(element) {
+                        innerTable += get_table_data(element, ["id", "team_number"], "match_number");
+                    });
+                } else if (specific_match) {
+                    $("#header").val("ALL Teams for Match " + data[0].match_number);
+                    data.forEach( function(element) {
+                        innerTable += get_table_data(element, ["id", "match_number"], "team_number");
+                    });
+                } else {
+                    // Else, display everything
+                    $("#header").val("ALL data (all teams, all matches)");
+                    data.forEach( function(element) {
+                        innerTable += get_table_data(element, ["id"], "");
+                    });
+                }
+
+            }
+            $("#table").html(innerTable);
+        }
+
+        function load_data() {
+            get_data($("#team_number").val(), $("#match_number").val());
+        }
+    </script>
+  </head>
+
+  <body>
+    <a class="btn btn-default btn-block" href="/scout" role="button">Back to Scouting</a>
+    <h1> Data </h1>
+
+    Team Number (Leave blank for all teams): <br> 
+    <input id="team_number" class="form-control input-lg" type="text" placeholder="Team Number"> <br>
+    Match Number (Leave blank for all matches): <br>
+    <input id="match_number" class="form-control input-lg" type="text" placeholder="Match Number"> <br>
+    <button type="button" onclick="load_data()" class="btn btn-primary btn-lg btn-block" > Load Data </button>
+    <br><br>
+    <h3 id="header"> </h3>
+    <table id="table" class="table table-striped" > </table>
+  </body>
+</html>
+
