@@ -167,9 +167,16 @@
                 type: "post",
                 data: $("#scout_form").serialize(),
                 // TODO: replace document calls with jquery
-                success: function() {
-                    $("#success_log").html("Successfully updated!");
-                    $("#error_log").html("");
+                success: function(data) {
+                    if (data.result === "success") {
+                        $("#success_log").html("Successfully updated!");
+                        $("#error_log").html("");
+                    } else if (data.result === "invalid") {
+                        $("#success_log").html("");
+                        $("#error_log").html("Invalid data. "
+                            + "Make sure that all small int values are from 0-255 (inclusive), "
+                            + "and ensure that the data is realistic <br><br> ERROR: " + data.error);
+                    }
                 },
                 error: function() {
                     $("#error_log").html("Failed to update. Try using QR (once we get that up and running)");
@@ -224,7 +231,7 @@
 
                 radio_yes.attr("checked", false);
                 radio_no.attr("checked", true);
-                
+
                 yes.attr("class","btn btn-default btn-lg");
                 no.attr("class","btn btn-danger btn-lg");
             }
@@ -235,9 +242,11 @@
          the central value by 1 -->
     <script id="counter_template" type="x-tmpl-mustache">
       {{name}}: <br>
-      <button id="{{id}}_minus" type="button" onclick="counter_change('{{id}}', -1)"> - </button> 
-      <input id="{{id}}_input" type="text" name="{{id}}" value="0"> </input>
-      <button id="{{id}}_plus" type="button" onclick="counter_change('{{id}}', 1)"> + </button>
+      <div style="margin: 0 auto; width: 100%;">
+        <button id="{{id}}_minus" type="button" class="btn btn-lg" onclick="counter_change('{{id}}', -1)"> - </button> 
+        <input id="{{id}}_input" type="text" class="input" name="{{id}}" value="0"> </input>
+        <button id="{{id}}_plus" type="button" class = "btn btn-lg" onclick="counter_change('{{id}}', 1)"> + </button>
+      </div>
       <br><br>
     </script>
 
@@ -307,7 +316,7 @@
           <div id="t_fuel"></div>
           <div id="t_climb"></div>
           Comments: <br>
-          <textarea id="comments" name="comments" cols="50" rows="10" maxlength="150"> </textarea>
+          <textarea id="comments" name="comments" cols="50" rows="10"> </textarea>
           <br><div id="t_yellow_card"></div>
         </div>
 
