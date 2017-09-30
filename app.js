@@ -70,6 +70,11 @@ app.get('/data', function(req, res) {
     res.sendFile( load_template('getdata.html') );
 });
 
+// Avoid this pls
+app.get('/deleteall', function(req, res) {
+    res.sendFile( load_template('deleteall.html') );
+});
+
 // Update scout data
 app.post('/scout', function(req, res) {
     get_request_data(req, function(data) {
@@ -92,6 +97,17 @@ app.post('/scout', function(req, res) {
                + 'VALUES (' + data["author"] +','+ data["match_number"] +','+ data["team_number"] +','+ data["cross_green_line"] +','+ data["gear_score"] +','+ data["gear_routine"] +','+ data["fuel_auton"] +','+ data["hoppers"] +','+ data["gears_scored"] +','+ data["gears_dropped"] +','+ data["fuel_teleop"] +','+ data["climb"] +',' + data["yellow_card"] +','+ data["comments"] +')';
                 //+ 'WHERE NOT EXISTS (SELECT match_number FROM matches m WHERE m.match_number=' + data["match_number"] + ')';
         */
+    });
+});
+
+app.post('/deleteall', function(req, res) {
+    get_request_data(req, function(data) {
+        if (data.verification === "diepotato") {
+            sql_delete_all("matches");
+            res.send({result: "success"});
+        } else {
+            res.send({result: "error"});
+        }
     });
 });
 
@@ -155,7 +171,7 @@ function get_request_data(req, on_complete) {
 
 // Deletes all data in a table. Obviously, be very careful with this
 function sql_delete_all(table) {
-    sql.query('DELETE FROM ?', table);
+    sql.query('DELETE FROM ' + table);
 }
 
 // Fast inserts data into an SQL table, creating a new row.

@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> Scout </title> 
+    <script type="text/javascript" src="/lib/jquery-3.2.1.min.js"> </script>
+  
+    <script type="text/javascript">
+        function deleteall() {
+            $.ajax({
+                url: "/deleteall",
+                type: "post",
+                data: {"verification" : $("#check").val()}, 
+                success: function(data) {
+                    console.log(data.result);
+                    if (data.result === "success")
+                        $("#status").html("POOF everything is gone");
+                    else 
+                        $("#status").html("Invalid check password");
+                }
+            });
+        }
+    </script>
+  </head>
+
+  <body>
+    <h1> DELETE ALL??? </h1> <br><br>
+    In the event that we make some tests before the matches, everything should be cleaned before
+    we move on to the actual games.
+    <br><br>
+    To delete ALL MATCH DATA, type in diepotato into the text box and push the button
+    <br><br>
+    <input id="check" type="text"> <br><br><br>
+    <button type="button" onclick="deleteall()"> Confirm Deletion </button>
+    <p id="status"> </p>
+
+  </body>
+</html>
+
