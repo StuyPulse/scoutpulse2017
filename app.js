@@ -6,12 +6,11 @@ const mysql = require('mysql');
 
 const app = express();
 
-const SITE_PORT = 5000;
+const SITE_PORT = 80;
 const TEMPLATE_FOLDER = 'templates'
 const STATIC_FOLDER = 'static'
 
 app.use(express.static(path.join(__dirname, STATIC_FOLDER)));
-
 
 const sql = mysql.createConnection({
     host: "localhost",
@@ -19,6 +18,8 @@ const sql = mysql.createConnection({
     password: "securityftw", // Obviously insecure. Only use this for testing
     database: "db"// Database must be created first, otherwise this will crash 
 });
+
+const TINY_INT_LIST = ["fuel_auton", "hoppers", "gears_scored", "gears_dropped", "fuel_teleop"];
 
 sql.connect(function(err) {
     if (err) throw err;
@@ -80,23 +81,38 @@ app.post('/scout', function(req, res) {
     get_request_data(req, function(data) {
         console.log(data);
 
-        //sql.query('SELECT 1 FROM matches m WHERE m.match_number=\'' + data.match_number + '\' AND m.team_number=\'' + data.team_number + '\'', function(err, result, fields) {
+            //sql.query('SELECT 1 FROM matches m WHERE m.match_number=\'' + data.match_number + '\' AND m.team_number=\'' + data.team_number + '\'', function(err, result, fields) {
         sql.query('SELECT 1 FROM matches m WHERE m.match_number=? AND m.team_number=?', [data.match_number, data.team_number] , function(err, result, fields) {
-            if (err) throw err;
-            if (result.length == 0) {
+            if (err) {
+                throw err;             
+                return res.send({result: "error", error: err});
+            }           
+            var abort = null;
+
+            Object.keys(data).forEach(function(element) {
+                if (TINY_INT_LIST.indexOf(element) > -1) {
+                    var intval = parseInt(data[element]);
+                    console.log(intval);
+                    if (intval > 255 || intval < 0) {
+                        abort = {result: "invalid", error: "Invalid data for " + element + ": " + intval}; 
+                        return;
+                    }
+                }
+            });
+ 
+            if (abort != null) {
+                return res.send(abort);
+            }
+
+	        if (result.length == 0) {
                 //if (result) <--?
-                sql_fast_insert('matches', data);
+                return res.send(sql_fast_insert('matches', data));
             } else {
                 // TODO: Make this sql injection proof
-                sql_fast_update('matches', data, 'match_number=\'' + data.match_number + '\' AND team_number=\'' + data.team_number + '\'');
+                return res.send(sql_fast_update('matches', data, 'match_number=\'' + data.match_number + '\' AND team_number=\'' + data.team_number + '\''));
             }
+            res.send({result: "success"});
         });
-
-        res.send({result: "success"});
-        /*sql.query('INSERT INTO matches (author, match_number, team_number, cross_green_line, gear_score, gear_routine, fuel_auton, hoppers, gears_scored, gears_dropped, fuel_teleop, climb, yellow_card, comments)'
-               + 'VALUES (' + data["author"] +','+ data["match_number"] +','+ data["team_number"] +','+ data["cross_green_line"] +','+ data["gear_score"] +','+ data["gear_routine"] +','+ data["fuel_auton"] +','+ data["hoppers"] +','+ data["gears_scored"] +','+ data["gears_dropped"] +','+ data["fuel_teleop"] +','+ data["climb"] +',' + data["yellow_card"] +','+ data["comments"] +')';
-                //+ 'WHERE NOT EXISTS (SELECT match_number FROM matches m WHERE m.match_number=' + data["match_number"] + ')';
-        */
     });
 });
 
@@ -144,7 +160,7 @@ app.get('/getdata', function(req, res) {
 
 
 // START LISTENING
-app.listen(SITE_PORT, function() {
+app.listen(SITE_PORT, '0.0.0.0' , function() {
     console.log('Listening on port ' + SITE_PORT);
 });
 
@@ -185,7 +201,10 @@ function sql_fast_insert(table, data) {
 
     //sql.query('INSERT INTO ' + table + ' ' + insert_titles + ' VALUES ' + value_titles, function(err, result) {
     sql.query('INSERT INTO matches ' + insert_titles + ' VALUES ' + value_titles, function(err, result) {
-        if (err) throw err;   
+        if (err) {
+            return {result: "error", error: err};
+            throw err;
+        }
     });
 }
 
@@ -206,6 +225,9 @@ function sql_fast_update(table, data, where_conditional) {
 
     //sql.query('UPDATE ' + table + ' SET ' + setters + ' ' + where_conditional, function(err, result) {
     sql.query('UPDATE matches SET ' + setters + ' WHERE ' + where_conditional,/* table,*/ function(err, result) {
-        if (err) throw err;
+        if (err) {
+            return {result: "error", error: err};
+            throw err;
+        }
     });
 }
