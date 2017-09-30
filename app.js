@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname, STATIC_FOLDER)));
 const sql = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "securityFTW", // Obviously insecure. Only use this for testing
+    password: "securityftw", // Obviously insecure. Only use this for testing
     database: "db"// Database must be created first, otherwise this will crash 
 });
 
@@ -142,7 +142,7 @@ function load_template(url) {
 
 // Gets the data from a request, passing it through the "on_complete" function
 function get_request_data(req, on_complete) {
-    let body = '';
+    var body = '';
     req.on('data', function(chunk) {
         body += chunk;
         if (body.length > 1e6) request.connection.destroy();
