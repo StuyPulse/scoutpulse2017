@@ -14,11 +14,19 @@
 
 <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    
-    <!-- Latest compiled and minified JavaScript -->
+
+<!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="/css/scout.css">
+    <style>
+        input[type='radio'] {
+            transform: scale(2);
+            margin: 15px;
+	    }
+        .radiobuttondiv {
+            font-size: 17px;
+        }
+	</style>
 
     <!-- Form submission handled here -->
     <script type="text/javascript">
@@ -292,19 +300,20 @@
           <!-- These divs are here so we can place our templated inputs inside of them -->
           <br><div id="a_cross"></div>
 
-          Successful Gear? <br>
+            
+            <div class="radiobuttondiv">
+              Successful Gear? <br>
+              <input type="radio" name="gear_score" value="YES"> Yes <br>
+              <input type="radio" name="gear_score" value="TRIED"> No, but attempted to <br>
+              <input type="radio" name="gear_score" value="NO" checked="checked" > No, didn't try <br>
           
-            <input type="radio" name="gear_score" value="YES"> Yes <br>
-            <input type="radio" name="gear_score" value="TRIED"> No, but attempted to <br>
-            <input type="radio" name="gear_score" value="NO" checked="checked" > No, didn't try <br>
-          
-            <br>Gear Routine <br>
-          
-            <input type="radio" name="gear_routine" value="HP"> Human Player Peg<br>
-            <input type="radio" name="gear_routine" value="CENTER"> Center Peg <br>
-            <input type="radio" name="gear_routine" value="BOILER"> Boiler peg<br>
-            <input type="radio" name="gear_routine" value="NONE" checked="checked"> None<br>
-          
+              <br>Gear Routine <br>
+
+              <input type="radio" name="gear_routine" value="HP"> Human Player Peg<br>
+              <input type="radio" name="gear_routine" value="CENTER"> Center Peg <br>
+              <input type="radio" name="gear_routine" value="BOILER"> Boiler peg<br>
+              <input type="radio" name="gear_routine" value="NONE" checked="checked"> None<br>
+            </div>
           <br><div id="a_fuel"></div>
           <div id="a_hopper"></div>
         </div>
