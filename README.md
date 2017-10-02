@@ -6,7 +6,11 @@ This is a project for Team 694's electronic scouting app.
 
 ## Deploying
 
+Setup a mysql server, by installing mysql and creating the main database with a valid password
+
 Inside the project directory, simply run `node app.js`
+
+To ensure the server continuously runs, install forever with `npm install forever` and run `forever start app.js`
 
 Be sure to install any requied libraries with npm, should any
 "missing library" compiler errors appear
