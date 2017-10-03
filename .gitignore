@@ -1,3 +1,6 @@
+# Server Specific ignore files
+password
+
 # Logs
 logs
 *.log

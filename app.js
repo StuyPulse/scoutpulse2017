@@ -1,5 +1,6 @@
 const express = require('express');
 const url = require('url');
+const fs = require('fs');
 const path = require('path');
 const qs = require('querystring');
 const mysql = require('mysql');
@@ -12,51 +13,73 @@ const STATIC_FOLDER = 'static'
 
 app.use(express.static(path.join(__dirname, STATIC_FOLDER)));
 
-const sql = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "securityftw", // Obviously insecure. Only use this for testing
-    database: "db"// Database must be created first, otherwise this will crash 
+fs.readFile('./password', 'utf8', function(err, data) {
+    if (err) {
+        console.log("\n\nCANNOT RUN SERVER:\nNo password file for mysql located in root directory."
+                + "\n Please create a file called \'password\' and write the mysql database password"
+                + " inside the file");
+        process.exit(1);
+        console.log("\n" + err);
+    }
+
+    // Remove newline and carriage return from password
+    data = data.replace(/[\n\r]+/g, '');
+
+    // Connect, passing down password
+    sql_connect(data);
+
 });
+
+
+function sql_connect(sql_password) {
+
+    const sql = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: sql_password,
+        database: "db"// Database must be created first, otherwise this will crash 
+    });
+    sql.connect(function(err) {
+        if (err) throw err;
+        console.log("Connected to MySQL!");
+     
+        sql.query('CREATE DATABASE IF NOT EXISTS db', function(err, result) {
+            if (err) throw err;
+            console.log("SQL Database created/checked");
+        });
+    
+        // Match table
+        sql.query('CREATE TABLE IF NOT EXISTS matches ('
+                    // id and main tag labels
+                    + 'id INT PRIMARY KEY AUTO_INCREMENT,'
+                    + 'author VARCHAR(50),'
+                    + 'match_number VARCHAR(10),'
+                    + 'team_number SMALLINT,'
+                    // params
+                    + 'cross_green_line BOOLEAN,'
+                    + 'gear_score enum(\'YES\', \'NO\', \'TRIED\'),'
+                    + 'gear_routine enum(\'HP\', \'CENTER\', \'BOILER\', \'NONE\'),'
+                    + 'fuel_auton TINYINT UNSIGNED,'
+                    + 'hoppers TINYINT UNSIGNED,'
+                    + 'gears_scored TINYINT UNSIGNED,'
+                    + 'gears_dropped TINYINT UNSIGNED,'
+                    + 'fuel_teleop TINYINT UNSIGNED,'
+                    + 'climb BOOLEAN,'
+                    + 'yellow_card BOOLEAN,'
+                    + 'comments TEXT'
+                    + ')'
+                , function(err, result) {
+            if (err) throw err;
+        });
+    
+        // Team data table
+        sql.query('CREATE TABLE IF NOT EXISTS teams (team_number SMALLINT PRIMARY KEY)', function(err, result) {if (err) throw err;});
+    });
+}
+
 
 const TINY_INT_LIST = ["fuel_auton", "hoppers", "gears_scored", "gears_dropped", "fuel_teleop"];
 
-sql.connect(function(err) {
-    if (err) throw err;
-    console.log("Connected to MySQL!");
- 
-    sql.query('CREATE DATABASE IF NOT EXISTS db', function(err, result) {
-        if (err) throw err;
-        console.log("SQL Database created/checked");
-    });
-
-    // Match table
-    sql.query('CREATE TABLE IF NOT EXISTS matches ('
-                // id and main tag labels
-                + 'id INT PRIMARY KEY AUTO_INCREMENT,'
-                + 'author VARCHAR(50),'
-                + 'match_number VARCHAR(10),'
-                + 'team_number SMALLINT,'
-                // params
-                + 'cross_green_line BOOLEAN,'
-                + 'gear_score enum(\'YES\', \'NO\', \'TRIED\'),'
-                + 'gear_routine enum(\'HP\', \'CENTER\', \'BOILER\', \'NONE\'),'
-                + 'fuel_auton TINYINT UNSIGNED,'
-                + 'hoppers TINYINT UNSIGNED,'
-                + 'gears_scored TINYINT UNSIGNED,'
-                + 'gears_dropped TINYINT UNSIGNED,'
-                + 'fuel_teleop TINYINT UNSIGNED,'
-                + 'climb BOOLEAN,'
-                + 'yellow_card BOOLEAN,'
-                + 'comments TEXT'
-                + ')'
-            , function(err, result) {
-        if (err) throw err;
-    });
-
-    // Team data table
-    sql.query('CREATE TABLE IF NOT EXISTS teams (team_number SMALLINT PRIMARY KEY)', function(err, result) {if (err) throw err;});
-});
 
 app.get('/', function(req, res) {
     res.redirect('/scout');
