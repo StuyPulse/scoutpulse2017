@@ -26,6 +26,14 @@
         .radiobuttondiv {
             font-size: 17px;
         }
+        
+        @font-face {
+	font-family: Adam;
+	src: url(static/lib/Adam.ttf);
+}
+h1 {
+font-family: Adam;
+}
 	</style>
 
     <!-- Form submission handled here -->
@@ -277,13 +285,21 @@
     
     <a class="btn btn-default btn-block" href="/data" role="button">View Data</a>
 
-    <h1> Scouting </h1>
+    <h1> Scouting: </h1>
 
     <form id="scout_form" >
       <div id="critical_info_form">
+      
         Your Name: <br><input id="field_name" class="form-control input-lg" type="text" name="author" placeholder="Name"> <br>
         Team Number: <br><input id="field_team_number" class="form-control input-lg" type="text" name="team_number" placeholder="Team Number"> <br> 
         Match Number: <br><input id="field_match_number" class="form-control input-lg" type="text" name="match_number" placeholder="Match Number"> <br>
+        Regional: <br> <select class="form-control" id="specific_regional">
+        <option> New York </option>
+        <option> Florida </option>
+        <option> St.Louis</option>
+        <option> Hudson Valley</option>
+        <option> Brunswick Eruption </option>
+        <option> Pennsylvania: Ramp Riot </option> </select> <br>
         <button type="button" onclick="load_data()" class="btn btn-primary btn-lg btn-block">Load Sheet</button>
         <!--Your Name: <input id="field_name" type="text" name="author"> <br>
         Team Number: <input id="field_team_number" type="text" name="team_number"> <br>
@@ -303,7 +319,7 @@
             
             <div class="radiobuttondiv">
               Successful Gear? <br>
-              <input type="radio" name="gear_score" value="YES"> Yes <br>
+              <input type="radio" name="gear_score" value="YES"> Yes<br>
               <input type="radio" name="gear_score" value="TRIED"> No, but attempted to <br>
               <input type="radio" name="gear_score" value="NO" checked="checked" > No, didn't try <br>
           

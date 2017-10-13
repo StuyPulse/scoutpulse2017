@@ -112,8 +112,20 @@
     <input id="team_number" class="form-control input-lg" type="text" placeholder="Team Number"> <br>
     Match Number (Leave blank for all matches): <br>
     <input id="match_number" class="form-control input-lg" type="text" placeholder="Match Number"> <br>
-    <button type="button" onclick="load_data()" class="btn btn-primary btn-lg btn-block" > Load Data </button>
-    <br><br>
+    <!--Added Regional option for frontend.--> 
+    What Regional and Year?
+      <select class="form-control" id="specific_regional">
+        <option> New York </option>
+        <option> Florida </option>
+        <option> St.Louis</option>
+        <option> Hudson Valley</option>
+        <option> Brunswick Eruption </option>
+        <option> Pennsylvania: Ramp Riot </option>
+      </select>
+      <br>
+      <br>
+    <button type="button" onclick="load_data()" class="btn btn-primary btn-lg btn-block" > Load Data </button><br>
+    <br>
     <h3 id="header"> </h3>
     <table id="table" class="table table-striped" > </table>
   </body>
