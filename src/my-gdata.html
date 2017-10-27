@@ -1,0 +1,61 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<script type="text/javascript" src="/lib/jquery-3.2.1.min.js"> </script>
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-gdata">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+
+    <div class="card">
+      <div class="card">
+    <div class="rectangle">Get Data</div>
+    <div>
+    <form id="form3">
+            <paper-input always-float-label align="center" label="Team Number:"></paper-input>
+            <paper-input always-float-label align="center" label="Match Number:"></paper-input>
+            <br>
+            <div class="rectangle"> What competition? </div>
+
+  <paper-listbox slot="dropdown-content" selected="1">
+    <paper-item id="brunswick">Brunswick Eruption</paper-item>
+    <paper-item id="florida">Florida</paper-item>
+    <paper-item id="st.louis">St.Louis</paper-item>
+    <paper-item id="newyork">New York</paper-item>
+    <paper-item id="pennsylvania">Pennsylvania: Ramp Riot</paper-item>
+  </paper-listbox>
+  <br>
+</form>
+<paper-button raised> Submit </paper-button>
+    </div>
+  </template>
+
+  <script>
+    class MyGdata extends Polymer.Element {
+      static get is() { return 'my-gdata'; }
+    }
+
+    window.customElements.define(MyGdata.is, MyGdata);
+  </script>
+</dom-module>

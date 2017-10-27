@@ -7,11 +7,12 @@ const mysql = require('mysql');
 
 const app = express();
 
-const SITE_PORT = 80;
+const SITE_PORT = 8000;
 const TEMPLATE_FOLDER = 'templates'
-const STATIC_FOLDER = 'static'
 
-app.use(express.static(path.join(__dirname, STATIC_FOLDER)));
+var sql;
+
+app.use(express.static(path.join(__dirname)));
 
 fs.readFile('./password', 'utf8', function(err, data) {
     if (err) {
@@ -33,7 +34,7 @@ fs.readFile('./password', 'utf8', function(err, data) {
 
 function sql_connect(sql_password) {
 
-    const sql = mysql.createConnection({
+    sql = mysql.createConnection({
         host: "localhost",
         user: "root",
         password: sql_password,
@@ -81,23 +82,10 @@ function sql_connect(sql_password) {
 const TINY_INT_LIST = ["fuel_auton", "hoppers", "gears_scored", "gears_dropped", "fuel_teleop"];
 
 
-app.get('/', function(req, res) {
-    res.redirect('/scout');
+app.get("*", function(req, res) {
+    res.sendFile('index.html', {root: '.'});
 });
 
-// Display scout page
-app.get('/scout', function(req, res) {
-    res.sendFile( load_template('scout.html') );
-});
-
-app.get('/data', function(req, res) {
-    res.sendFile( load_template('getdata.html') );
-});
-
-// Avoid this pls
-app.get('/deleteall', function(req, res) {
-    res.sendFile( load_template('deleteall.html') );
-});
 
 // Update scout data
 app.post('/scout', function(req, res) {
