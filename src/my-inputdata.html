@@ -20,8 +20,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/toggle-icon/toggle-icon.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/paper-number-input/paper-number-input.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
-
 
 <dom-module id="my-inputdata">
   <template>
@@ -41,101 +41,107 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
     <div class="card">
-      <div class="rectangle">Auton</div>
+      <div class="rectangle" style="font-size:24px;">Auton</div>
       <div>
-      <form method = "get" action="/form/handler" id="auton">
-          <paper-input always-float-label align="center" label="Match Number: "></paper-input>
-          <paper-input always-float-label align="center" label="Team: "></paper-input>
-      <iron-label for="groundpickup">
-          Ground Pickup? &nbsp;&nbsp;&nbsp;
-      </iron-label>
-          <iron-selector id="groundpickup" attr-for-selected="gpick" selected-attribute="checked">
-              <paper-checkbox name="Gears">Gears &nbsp;</paper-checkbox>
-              <paper-checkbox name="Fuel">Fuel &nbsp; </paper-checkbox>
-              <paper-checkbox name="None">None &nbsp; </paper-checkbox>
-          </iron-selector>
-      <br>
-      <iron-label for="fscore">
-          Fuel Scoring Capability &nbsp;&nbsp;&nbsp;
-      </iron-label>
-          <iron-selector id="fscore" attr-for-selected="type" selected-attribute="checked">
-              <paper-checkbox name="High">High &nbsp;</paper-checkbox>
-              <paper-checkbox name="Low">Low &nbsp;</paper-checkbox>
-              <paper-checkbox name="None">None &nbsp;</paper-checkbox>
-          </iron-selector>
-      <hr>
-      <h4> Autonomous </h4>
-          <iron-label for="crossg">
+      <!--<iron-form id="scout_form"> -->
+        <form id="scout_form" is="iron-form" method="post" action="/scout" >
+            <!--<paper-input always-float-label align="center" label="Match Number: "></paper-input>
+            <paper-input always-float-label align="center" label="Team: "></paper-input>
+        <iron-label for="groundpickup">
+            Ground Pickup? &nbsp;&nbsp;&nbsp;
+        </iron-label>
+            <iron-selector id="groundpickup" attr-for-selected="gpick" selected-attribute="checked">
+                <paper-checkbox name="Gears">Gears &nbsp;</paper-checkbox>
+                <paper-checkbox name="Fuel">Fuel &nbsp; </paper-checkbox>
+                <paper-checkbox name="None">None &nbsp; </paper-checkbox>
+            </iron-selector>
+        <br>
+        <iron-label for="fscore">
+            Fuel Scoring Capability &nbsp;&nbsp;&nbsp;
+        </iron-label>
+            <iron-selector id="fscore" attr-for-selected="type" selected-attribute="checked">
+                <paper-checkbox name="High">High &nbsp;</paper-checkbox>
+                <paper-checkbox name="Low">Low &nbsp;</paper-checkbox>
+                <paper-checkbox name="None">None &nbsp;</paper-checkbox>
+            </iron-selector>
+        <hr>
+        <h4> Autonomous </h4>
+            <iron-label for="crossg">
               Crossed the green line?
           </iron-label>
           <toggle-icon required=true icon="icons:thumb-up" animation="flip-vertical" class="green-red"></toggle-icon>
-          <br>
+        <br>
 
-          <iron-label for = "successgr">
-              Successful Gear?
-          </iron-label>
-              <paper-radio-group selected="successgr" aria-labelledby="successgr">
-                  <paper-radio-button name="y"> Yes </paper-radio-button>
-                  <paper-radio-button name="nobutattempted"> No, attempted to </paper-radio-button>
-                  <paper-radio-button name="noattempt"> No, didn't try </paper-radio-button>
-              </paper-radio-group>
-         <br>
+        <iron-label for = "successgr">
+            Successful Gear?
+        </iron-label>
+            <paper-radio-group selected="successgr" aria-labelledby="successgr">
+                <paper-radio-button name="y"> Yes </paper-radio-button>
+                <paper-radio-button name="nobutattempted"> No, attempted to </paper-radio-button>
+                <paper-radio-button name="noattempt"> No, didn't try </paper-radio-button>
+            </paper-radio-group>
+        <br>
 
-         <iron-label for="grroutine">
-              Gear Routine
-         </iron-label>
-             <paper-radio-group selected="grroutine" aria-labelledby="grroutine">
-                 <paper-radio-button name="hpp"> Human Player Peg </paper-radio-button>
-                 <paper-radio-button name="cp"> Center Peg </paper-radio-button>
-                 <paper-radio-button name="bp"> Boiler Peg </paper-radio-button>
-                 <paper-radio-button name="none"> None </paper-radio-button>
-             </paper-radio-group>
-         <paper-number-input
-         label = " Fuel Scored (kPa) "
-         min = "0"
-         value = "0"
-         step = "1"
-         fallback-value = "0"
-         >
-         </paper-number-input>
-         <br>
-         <paper-number-input
-         label = " Hoppers Triggered "
-         min = "0"
-         value = "0"
-         step = "1"
-         fallback-value = "0"
-         >
-         </paper-number-input>
-     </form>
-    <div class="rectangle">Teleop</div>
-    <form method = "get" action="/form/handler">
-            <paper-number-input always-float-label align="center" label="Gears Scored:" min = "0"
-            value = "0" step = "1" fallback-value = "0" ></paper-number-input>
-            <paper-number-input always-float-label align="center" label="Gears Dropped:" min = "0"
-            value = "0" step = "1" fallback-value = "0" ></paper-number-input>
-            <paper-number-input always-float-label align="center" label="Fuel Scored:" min = "0"
-            value = "0" step = "1" fallback-value = "0" ></paper-number-input>
-            <br>
-            <iron-label>
-                Climb?
-            </iron-label>
-            <toggle-icon required=true icon="icons:thumb-up" animation="flip-vertical" class="green-red"></toggle-icon>
-            <br>
-            <iron-label>
-            Yellow Card?
-            	</iron-label>
-            <toggle-icon required=true icon="icons:thumb-up" animation="flip-vertical" class="green-red"></toggle-icon>
-            <br>
-            <br>
-            <div class="rectangle"><b>Comments:</div></b>
-            <paper-textarea always-float-label label="Please note in the comments how the robot behaved on the field.
-		    Make sure to note if robot was not functional or repeatedly incurred fouls."> </paper-textarea>
-            <br>
+        <iron-label for="grroutine">
+             Gear Routine
+        </iron-label>
+            <paper-radio-group selected="grroutine" aria-labelledby="grroutine">
+                <paper-radio-button name="hpp"> Human Player Peg </paper-radio-button>
+                <paper-radio-button name="cp"> Center Peg </paper-radio-button>
+                <paper-radio-button name="bp"> Boiler Peg </paper-radio-button>
+                <paper-radio-button name="none"> None </paper-radio-button>
+            </paper-radio-group>
+        <paper-number-input
+        label = " Fuel Scored (kPa) "
+        min = "0"
+        value = "0"
+        step = "1"
+        fallback-value = "0"
+        >
+        </paper-number-input>
+        <br>
+        <paper-number-input
+        label = " Hoppers Triggered "
+        min = "0"
+        value = "0"
+        step = "1"
+        fallback-value = "0"
+        >
+        </paper-number-input>
+        <div>
+	    
+        <div class="rectangle" style="font-size:24px;" >Teleop</div>
+        <div>
+                <paper-number-input always-float-label align="center" label="Gears Scored:" min = "0"
+                value = "0" step = "1" fallback-value = "0" ></paper-number-input>
+                <paper-number-input always-float-label align="center" label="Gears Dropped:" min = "0"
+                value = "0" step = "1" fallback-value = "0" ></paper-number-input>
+                <paper-number-input always-float-label align="center" label="Fuel Scored:" min = "0"
+                value = "0" step = "1" fallback-value = "0" ></paper-number-input>
+                <br>
+                <iron-label>
+                    Climb?
+                </iron-label>
+                <toggle-icon required=true icon="icons:thumb-up" animation="flip-vertical" class="green-red"></toggle-icon>
+                <br>
+                <iron-label>
+                Yellow Card?
+                	</iron-label>
+                <toggle-icon required=true icon="icons:thumb-up" animation="flip-vertical" class="green-red"></toggle-icon>
+                <br>
+                <br>
+                <div class="rectangle"><b>Comments:</div></b>
+                <paper-textarea always-float-label label="Please note in the comments how the robot behaved on the field.
+	    	    Make sure to note if robot was not functional or repeatedly incurred fouls."> </paper-textarea>
+                <br>
+                <!- - <input type="submit" value="Submit"> - ->
+                
+        </div>-->
+        <input type="hidden" name="TEST_HI" value="oops">
+        <paper-button raised onclick="submit_data()"> Submit </paper-button>
       </form>
-      <paper-button raised> Submit </paper-button>
-    </div>
- 	
+    <!--</iron-form>-->
+ 	    
 
 </template>
 
@@ -145,5 +151,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
 
     window.customElements.define(MyInputData.is, MyInputData);
+
+    function submit_data() {
+      var form = $("#scout_form");
+      var form = document.getElementById("scout_form");
+      console.log(form.TEST_HI.value);
+      console.log(form.serialize());
+
+      $.ajax({
+            url: "/scout",
+            type: "post",
+            data: form.serialize(),
+            success: function(data) {
+                /*if (data.result === "success") {
+                    $("#success_log").html("Successfully updated!");
+                    $("#error_log").html("");
+                } else if (data.result === "invalid") {
+                    $("#success_log").html("");
+                    $("#error_log").html("Invalid data. "
+                        + "Make sure that all small int values are from 0-255 (inclusive), "
+                        + "and ensure that the data is realistic <br><br> ERROR: " + data.error);
+                }*/
+            },
+            error: function() {
+                /*$("#error_log").html("Failed to update. Try using QR (once we get that up and running)");
+                $("#success_log").html("");*/
+            }
+        });
+    }
+
   </script>
 </dom-module>

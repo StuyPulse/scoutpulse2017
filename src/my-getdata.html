@@ -8,8 +8,6 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<script type="text/javascript" src="/lib/jquery-3.2.1.min.js"> </script>
-
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
@@ -18,7 +16,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="shared-styles.html">
 
-<dom-module id="my-gdata">
+<dom-module id="my-getdata">
   <template>
     <style include="shared-styles">
       :host {
@@ -29,7 +27,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
     <div class="card">
-      <div class="card">
     <div class="rectangle">Get Data</div>
     <div>
     <form id="form3">
@@ -38,24 +35,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <br>
             <div class="rectangle"> What competition? </div>
 
-  <paper-listbox slot="dropdown-content" selected="1">
-    <paper-item id="brunswick">Brunswick Eruption</paper-item>
-    <paper-item id="florida">Florida</paper-item>
-    <paper-item id="st.louis">St.Louis</paper-item>
-    <paper-item id="newyork">New York</paper-item>
-    <paper-item id="pennsylvania">Pennsylvania: Ramp Riot</paper-item>
-  </paper-listbox>
-  <br>
-</form>
-<paper-button raised> Submit </paper-button>
-    </div>
+    <paper-listbox slot="dropdown-content" selected="1">
+     <paper-item id="brunswick">Brunswick Eruption</paper-item>
+     <paper-item id="florida">Florida</paper-item>
+     <paper-item id="st.louis">St.Louis</paper-item>
+     <paper-item id="newyork">New York</paper-item>
+     <paper-item id="pennsylvania">Pennsylvania: Ramp Riot</paper-item>
+    </paper-listbox>
+    <br>
+    </form>
+    <paper-button raised> Submit </paper-button>
+     </div></div>
   </template>
 
   <script>
-    class MyGdata extends Polymer.Element {
-      static get is() { return 'my-gdata'; }
+    class MyGetData extends Polymer.Element {
+      static get is() { return 'my-getdata'; }
     }
 
-    window.customElements.define(MyGdata.is, MyGdata);
+    window.customElements.define(MyGetData.is, MyGetData);
   </script>
-</dom-module>
+</domi-module>

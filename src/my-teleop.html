@@ -1,0 +1,76 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/toggle-icon/toggle-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-number-input/paper-number-input.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-teleop">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+      }
+      .green-red {
+        --toggle-icon: {
+            color: var(--paper-green-500);
+        };
+        --toggle-icon-checked: {
+            color: var(--paper-red-500);
+        };
+      }
+    </style>
+
+    <div class="card">
+    <div class="rectangle">Teleop</div>
+    <div>
+    <form method = "get" action="/form/handler">
+            <paper-number-input always-float-label align="center" label="Gears Scored:" min = "0"
+            value = "0" step = "1" fallback-value = "0" ></paper-number-input>
+            <paper-number-input always-float-label align="center" label="Gears Dropped:" min = "0"
+            value = "0" step = "1" fallback-value = "0" ></paper-number-input>
+            <paper-number-input always-float-label align="center" label="Fuel Scored:" min = "0"
+            value = "0" step = "1" fallback-value = "0" ></paper-number-input>
+            <br>
+            <iron-label>
+                Climb?
+            </iron-label>
+            <toggle-icon required=true icon="icons:thumb-up" animation="flip-vertical" class="green-red"></toggle-icon>
+            <br>
+            <iron-label>
+            Yellow Card?
+            	</iron-label>
+            <toggle-icon required=true icon="icons:thumb-up" animation="flip-vertical" class="green-red"></toggle-icon>
+            <br>
+            <br>
+            <div class="rectangle"><b>Comments:</div></b>
+            <paper-textarea always-float-label label="Please note in the comments how the robot behaved on the field.
+		    Make sure to note if robot was not functional or repeatedly incurred fouls."> </paper-textarea>
+            <br>
+            <paper-button raised> Submit </paper-button>
+            </form>
+    </div>
+  </template>
+
+  <script>
+    class MyTeleop extends Polymer.Element {
+      static get is() { return 'my-teleop'; }
+    }
+
+    window.customElements.define(MyTeleop.is, MyTeleop);
+  </script>
+</dom-module>
