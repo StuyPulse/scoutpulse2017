@@ -23,6 +23,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="my-icons.html">
 
 <link rel="lazy-import" href="my-inputdata.html">
+<link rel="lazy-import" href="my-experiment.html">
 <link rel="lazy-import" href="my-getdata.html">
 <link rel="lazy-import" href="my-view404.html">
 
@@ -84,6 +85,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
         <app-toolbar>Menu</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+          <a name="experiment" href="[[rootPath]]experiment">Experiment</a>
           <a name="inputdata" href="[[rootPath]]inputdata">Input Data</a>
           <a name="getdata" href="[[rootPath]]getdata">Get Data</a>
         </iron-selector>
@@ -104,6 +106,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             attr-for-selected="name"
             fallback-selection="view404"
             role="main">
+          <my-experiment name="experiment"> </my-experiment>
           <my-inputdata name="inputdata"></my-inputdata>
           <my-getdata name="getdata"></my-getdata>
           <my-view404 name="view404"></my-view404>

@@ -39,13 +39,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         };
       }
     </style>
-
+<!--
     <div class="card">
       <div class="rectangle" style="font-size:24px;">Auton</div>
-      <div>
+      <div>-->
       <!--<iron-form id="scout_form"> -->
-        <form id="scout_form" is="iron-form" method="post" action="/scout" >
-            <!--<paper-input always-float-label align="center" label="Match Number: "></paper-input>
+        <form id="scout_form"><!-- method="post" action="/scout" >
+           <!- - 
+            <paper-input always-float-label align="center" label="Match Number: "></paper-input>
             <paper-input always-float-label align="center" label="Team: "></paper-input>
         <iron-label for="groundpickup">
             Ground Pickup? &nbsp;&nbsp;&nbsp;
@@ -134,12 +135,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <paper-textarea always-float-label label="Please note in the comments how the robot behaved on the field.
 	    	    Make sure to note if robot was not functional or repeatedly incurred fouls."> </paper-textarea>
                 <br>
-                <!- - <input type="submit" value="Submit"> - ->
+                < !- - <input type="submit" value="Submit"> - ->
                 
         </div>-->
-        <input type="hidden" name="TEST_HI" value="oops">
-        <paper-button raised onclick="submit_data()"> Submit </paper-button>
+        <input type="text" name="TEST_HI" value="oops">
       </form>
+      <button onclick="submit_data()"> Submit </button>
     <!--</iron-form>-->
  	    
 
@@ -153,9 +154,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     window.customElements.define(MyInputData.is, MyInputData);
 
     function submit_data() {
-      var form = $("#scout_form");
-      var form = document.getElementById("scout_form");
-      console.log(form.TEST_HI.value);
+/*      var form = $("#scout_form");*/
+      console.log(document.getElementById("scout_form").elements.namedItem("TEST_HI").value);
       console.log(form.serialize());
 
       $.ajax({
