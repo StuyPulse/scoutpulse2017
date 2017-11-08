@@ -1,6 +1,6 @@
 <script type="text/javascript" src="/lib/jquery-3.2.1.min.js"> </script>
 <link rel="import" href="shared-styles.html">
-
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 <dom-module id="my-experiment">
     <template>
         <style include="shared-styles">
@@ -9,22 +9,21 @@
                 padding: 10px;
             }
         </style>
-        <form id="sform">
-            <input type="text" name="TEST" value="oops">
+        <form is="iron-form" id="sform" method="post" action="/">
+            <input type="text" value="oops" id="plswork">
+            <paper-button raised on-click="submit" > Submit </paper-button>
         </form>
-        <button onclick="submit_data()"> Submit </button>
-
     </template>
     <script>
         class MyExperiment extends Polymer.Element {
             static get is() { return 'my-experiment'; }
+
+            submit() {
+                console.log(this.$.plswork.value);
+            }
+        
         }
 
         window.customElements.define(MyExperiment.is, MyExperiment);
-
-        function submit_data() {
-            console.log("hi");
-            console.log(document.getElementById("sform").elements.namedItem("TEST").value);
-        }
     </script>
 </dom-module>

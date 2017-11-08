@@ -39,15 +39,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         };
       }
     </style>
-<!--
+    
     <div class="card">
       <div class="rectangle" style="font-size:24px;">Auton</div>
-      <div>-->
-      <!--<iron-form id="scout_form"> -->
-        <form id="scout_form"><!-- method="post" action="/scout" >
-           <!- - 
-            <paper-input always-float-label align="center" label="Match Number: "></paper-input>
-            <paper-input always-float-label align="center" label="Team: "></paper-input>
+      <div>
+        <form id="scout_form" method="post" action="/scout" >
+            <paper-input always-float-label align="center" id="match"label="Match Number: "></paper-input>
+            <paper-input always-float-label align="center" id="team" label="Team: "></paper-input>
         <iron-label for="groundpickup">
             Ground Pickup? &nbsp;&nbsp;&nbsp;
         </iron-label>
@@ -70,13 +68,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <iron-label for="crossg">
               Crossed the green line?
           </iron-label>
-          <toggle-icon required=true icon="icons:thumb-up" animation="flip-vertical" class="green-red"></toggle-icon>
+          <toggle-icon id="crossg" required=true icon="icons:thumb-up" animation="flip-vertical" class="green-red"></toggle-icon>
         <br>
 
         <iron-label for = "successgr">
             Successful Gear?
         </iron-label>
-            <paper-radio-group selected="successgr" aria-labelledby="successgr">
+            <paper-radio-group id="successgr" selected="successgr" aria-labelledby="successgr">
                 <paper-radio-button name="y"> Yes </paper-radio-button>
                 <paper-radio-button name="nobutattempted"> No, attempted to </paper-radio-button>
                 <paper-radio-button name="noattempt"> No, didn't try </paper-radio-button>
@@ -93,8 +91,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <paper-radio-button name="none"> None </paper-radio-button>
             </paper-radio-group>
         <paper-number-input
-        label = " Fuel Scored (kPa) "
-        min = "0"
+            label = " Fuel Scored (kPa) "
+            min = "0"
         value = "0"
         step = "1"
         fallback-value = "0"
@@ -135,13 +133,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <paper-textarea always-float-label label="Please note in the comments how the robot behaved on the field.
 	    	    Make sure to note if robot was not functional or repeatedly incurred fouls."> </paper-textarea>
                 <br>
-                < !- - <input type="submit" value="Submit"> - ->
                 
-        </div>-->
-        <input type="text" name="TEST_HI" value="oops">
+        </div>
       </form>
-      <button onclick="submit_data()"> Submit </button>
-    <!--</iron-form>-->
+      <paper-button on-click="submit_data"> Submit </paper-button>
  	    
 
 </template>
@@ -149,19 +144,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>
     class MyInputData extends Polymer.Element {
       static get is() { return 'my-inputdata'; }
-    }
-
-    window.customElements.define(MyInputData.is, MyInputData);
-
-    function submit_data() {
-/*      var form = $("#scout_form");*/
-      console.log(document.getElementById("scout_form").elements.namedItem("TEST_HI").value);
-      console.log(form.serialize());
+    
+    submit_data() {
+      //var form = $("#scout_form");
+      var info = {
+        match: this.$.match.value,
+        team: this.$.team.value,
+        groundpickup: this.$.groundpickup.gpick,
+        fscore: this.$.fscore.type,
+        successg: this.$.successgr.successgr
+      };
+      console.log(info);
+      //console.log(this.$.scout_form.serialize());
+      /*console.log(this.$.team.value);
+      console.log(form.serialize());*/
 
       $.ajax({
             url: "/scout",
             type: "post",
-            data: form.serialize(),
+            data: scout_form.serialize(),
             success: function(data) {
                 /*if (data.result === "success") {
                     $("#success_log").html("Successfully updated!");
@@ -173,12 +174,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         + "and ensure that the data is realistic <br><br> ERROR: " + data.error);
                 }*/
             },
+            
             error: function() {
+
+                $("#error_log").html("Invalid data. " + "Make sure that all small int values are from 0-255 (inclusive), " + "and ensure that the data is realistic <br><br> ERROR: " + data.error);
                 /*$("#error_log").html("Failed to update. Try using QR (once we get that up and running)");
                 $("#success_log").html("");*/
             }
-        });
+       } );
     }
+    }
+    
+    window.customElements.define(MyInputData.is, MyInputData);
 
   </script>
 </dom-module>
