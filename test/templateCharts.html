@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<body>
+  <center>
+    <style>
+    h1 {
+      font-family: Verdana;
+      font-size: 40px;
+      color: black
+    }
+    </style>
+    <h1> Statistics of FRC Teams </h1>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div id="table_div"></div>
+ <div id="curve_chart" style="width: 600px; height: 300px"></div>
+ <div id="chart_div"></div>
+<script type="text/javascript">
+google.charts.load('current', {packages: ['corechart', 'bar']});
+google.charts.load('current', {'packages':['corechart']});
+google.charts.load('current', {'packages':['table']});
+google.charts.setOnLoadCallback(drawChart);
+google.charts.setOnLoadCallback(drawTable);
+google.charts.setOnLoadCallback(drawTopX);
+//Above is Initialization of Chart Loaders as well as packages online etc....
+
+//The Code below creates the bar graph above.
+function drawTopX() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('timeofday', 'Average Statistics');
+      data.addColumn('number', 'Average Auton Gears Scored:');
+      data.addColumn('number', 'Average Auton Fuel Scored:');
+      data.addColumn('number', 'Average Teleop Gears Scored:');
+      data.addColumn('number', 'Average Teleop Fuel Scored:');
+
+      data.addRows([
+        [{v: [1, 0, 0], f: ''}, 1, 20, 3, 5],
+      ]);
+
+      var options = {
+        axes: {
+          x: {
+            0: {side: 'bottom'}
+          }
+        },
+        hAxis: {
+          title: 'Average Statistics',
+          format: 'h:mm a',
+          viewWindow: {
+            min: [7 , 30, 0],
+            max: [10, 30, 50],
+          }
+        },
+        vAxis: {
+          title: ''
+        }
+      };
+
+      var materialChart = new google.charts.Bar(document.getElementById('chart_div'));
+      materialChart.draw(data, options);
+    }
+    //The Following Code below draws the Line Graph Chart.
+    //LINE GRPAH CHART BELOW
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ['Match #', 'Teleop Gears Scored',],
+        ['Match 1',  2],
+        ['Match 2',  4],
+        ['Match 3',  3],
+        ['Match 4',  3],
+        ['Match 5',  0],
+        ['Match 6',  1],
+        ['Match 7',  2],
+        ['Match 8',  1],
+        ['Match 9',  4],
+        ['Match 10',  2],
+      ]);
+
+      var options = {
+        fontName: 'Verdana',
+        title: 'Teleop Gear to Matches Ratio:',
+        curveType: 'function',
+        legend: { position: 'bottom' }
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+      chart.draw(data, options);
+    }
+
+    //The following code below draws the table that shows the general chart.
+    function drawTable() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Team Name');
+      data.addColumn('string', 'Average Auton Fuel')
+      data.addColumn('string', 'Auton Gear Routines');
+      data.addColumn('string', 'Auton Gear Percentage');
+      data.addColumn('string', 'Average Teleop Gears');
+      data.addColumn('string', 'Average Teleop Fuel');
+      data.addColumn('string', 'Climb Rate');
+      data.addRows([
+        ['694',  '0','Center','100%', '5', '0', '90%'],
+        ['2767', '0', 'HP', '0%', '3', '0', '80%'],
+        ['6651', '0', 'Boiler', '50%', '2', '0', '30%'],
+        ['6481', '0', 'None', '0%', '1', '0', '20%']
+      ]);
+
+      var table = new google.visualization.Table(document.getElementById('table_div'));
+
+      table.draw(data, {showRowNumber: true, width: '90%'});
+    }
+    //Eric's Wishes:
+    //Wants a Line Graph: Teleop Gears Scored and Match Number
+    //Wants a Bar Graph:
+    //Assortable Chart: Sort teams by gear scoring,etc.
+
+    </script>
+  </body>
+  </html>
