@@ -48,15 +48,18 @@ function sql_connect(sql_password) {
             if (err) throw err;
             console.log("SQL Database created/checked");
         });
-    
+
         // Match table
         sql.query('CREATE TABLE IF NOT EXISTS matches ('
                     // id and main tag labels
                     + 'id INT PRIMARY KEY AUTO_INCREMENT,'
                     + 'author VARCHAR(50),'
-                    + 'match_number VARCHAR(10),'
+                    + 'ground_pickup_gear BOOLEAN,'
+					+ 'ground_pickup_fuel BOOLEAN,'
+					+ 'fuel_scoring_high BOOLEAN,'
+					+ 'fuel_scoring_low BOOLEAN,'
+					+ 'match_number VARCHAR(10),'
                     + 'team_number SMALLINT,'
-                    // params
                     + 'cross_green_line BOOLEAN,'
                     + 'gear_score enum(\'YES\', \'NO\', \'TRIED\'),'
                     + 'gear_routine enum(\'HP\', \'CENTER\', \'BOILER\', \'NONE\'),'
@@ -72,7 +75,7 @@ function sql_connect(sql_password) {
                 , function(err, result) {
             if (err) throw err;
         });
-    
+
         // Team data table
         sql.query('CREATE TABLE IF NOT EXISTS teams (team_number SMALLINT PRIMARY KEY)', function(err, result) {if (err) throw err;});
     });
@@ -80,11 +83,6 @@ function sql_connect(sql_password) {
 
 
 const TINY_INT_LIST = ["fuel_auton", "hoppers", "gears_scored", "gears_dropped", "fuel_teleop"];
-
-
-app.get("*", function(req, res) {
-    res.sendFile('index.html', {root: '.'});
-});
 
 
 // Update scout data
@@ -169,6 +167,10 @@ app.get('/getdata', function(req, res) {
     });
 });
 
+
+app.get("*", function(req, res) {
+    res.sendFile('index.html', {root: '.'});
+});
 
 // START LISTENING
 app.listen(SITE_PORT, '0.0.0.0' , function() {
