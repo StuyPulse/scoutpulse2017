@@ -32,250 +32,251 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       .green-red {
         --toggle-icon: {
-            color: var(--paper-green-500);
+          color: var(--paper-green-500);
         };
         --toggle-icon-checked: {
-            color: var(--paper-red-500);
+          color: var(--paper-red-500);
         };
       }
     </style>
-    
+
     <div class="card">
       <div class="rectangle" style="font-size:24px;">Auton</div>
       <div>
         <iron-form id="scout_form">
-		  <form  method="post" action="/scout" >
-              <paper-input always-float-label align="center" id="match"label="Match Number: "></paper-input>
-              <paper-input always-float-label align="center" id="team" label="Team: "></paper-input>
+					<form  method="post" action="/scout" >
+            <paper-input always-float-label align="center" id="match"label="Match Number: "></paper-input>
+            <paper-input always-float-label align="center" id="team" label="Team: "></paper-input>
           
-	  		  <paper-button id="load_sheet_button" on-click="load_data"> Load Sheet </paper-button>
-			  <!-- TODO: Painfully go through this whole thing, remove all indentation, and re-indent everything properly -->
-			  <div id="loadable_sheet" style="display:none">
-				<iron-label for="groundpickup">
-          		    Ground Pickup? &nbsp;&nbsp;&nbsp;
+	  				<paper-button id="load_sheet_button" on-click="load_data"> Load Sheet </paper-button>
+
+						<div id="loadable_sheet" style="display:none">
+							<iron-label for="groundpickup">
+          			Ground Pickup? &nbsp;&nbsp;&nbsp;
           		</iron-label>
-          		    <iron-selector id="groundpickup" attr-for-selected="gpick" selected-attribute="checked">
-          		        <paper-checkbox id="groundpickup_gears" name="Gears">Gears &nbsp;</paper-checkbox>
-          		        <paper-checkbox id="groundpickup_fuel" name="Fuel">Fuel &nbsp; </paper-checkbox>
-          		    </iron-selector>
+          		<iron-selector id="groundpickup" attr-for-selected="gpick" selected-attribute="checked">
+          		  <paper-checkbox id="groundpickup_gears" name="Gears">Gears &nbsp;</paper-checkbox>
+          		  <paper-checkbox id="groundpickup_fuel" name="Fuel">Fuel &nbsp; </paper-checkbox>
+          		</iron-selector>
           		<br>
           		<iron-label for="fscore">
-          		    Fuel Scoring Capability &nbsp;&nbsp;&nbsp;
+          		  Fuel Scoring Capability &nbsp;&nbsp;&nbsp;
           		</iron-label>
-          		    <iron-selector id="fscore" attr-for-selected="type" selected-attribute="checked">
-          		        <paper-checkbox id="fscore_high" name="High">High &nbsp;</paper-checkbox>
-          		        <paper-checkbox id="fscore_low" name="Low">Low &nbsp;</paper-checkbox>
-          		    </iron-selector>
+          		<iron-selector id="fscore" attr-for-selected="type" selected-attribute="checked">
+          		  <paper-checkbox id="fscore_high" name="High">High &nbsp;</paper-checkbox>
+          		  <paper-checkbox id="fscore_low" name="Low">Low &nbsp;</paper-checkbox>
+          		</iron-selector>
           		<hr>
           		<h4> Autonomous </h4>
-          		    <iron-label for="crossg">
-          		      Crossed the green line?
-          		  </iron-label>
-          		  <toggle-icon id="crossg" required=true icon="icons:thumb-up" animation="flip-vertical" class="green-red"></toggle-icon>
+          		<iron-label for="crossg">
+          		  Crossed the green line?
+          		</iron-label>
+          		<toggle-icon id="crossg" required=true icon="icons:thumb-up" animation="flip-vertical" class="green-red"></toggle-icon>
           		<br>
 
           		<iron-label for = "successgr">
-          		    Successful Gear?
+          		  Successful Gear?
           		</iron-label>
-          		    <paper-radio-group id="successgr" selected="successgr" aria-labelledby="successgr">
-          		        <paper-radio-button name="YES"> Yes </paper-radio-button>
-          		        <paper-radio-button name="TRIED"> No, attempted to </paper-radio-button>
-          		        <paper-radio-button name="NO" selected> No, didn't try </paper-radio-button>
-          		    </paper-radio-group>
+          		<paper-radio-group id="successgr" selected="successgr" aria-labelledby="successgr">
+          		  <paper-radio-button name="YES"> Yes </paper-radio-button>
+          		  <paper-radio-button name="TRIED"> No, attempted to </paper-radio-button>
+          		  <paper-radio-button name="NO" selected> No, didn't try </paper-radio-button>
+          		</paper-radio-group>
           		<br>
 
           		<iron-label for="grroutine">
-          		     Gear Routine
+          		  Gear Routine
           		</iron-label>
-          		    <paper-radio-group id="grroutine" selected="grroutine" aria-labelledby="grroutine">
-          		        <paper-radio-button name="HP"> Human Player Peg </paper-radio-button>
-          		        <paper-radio-button name="CENTER"> Center Peg </paper-radio-button>
-          		        <paper-radio-button name="BOILER"> Boiler Peg </paper-radio-button>
-          		        <paper-radio-button name="NONE" selected> None </paper-radio-button>
-          		    </paper-radio-group>
+          		<paper-radio-group id="grroutine" selected="grroutine" aria-labelledby="grroutine">
+          		  <paper-radio-button name="HP"> Human Player Peg </paper-radio-button>
+          		  <paper-radio-button name="CENTER"> Center Peg </paper-radio-button>
+          		  <paper-radio-button name="BOILER"> Boiler Peg </paper-radio-button>
+          		  <paper-radio-button name="NONE" selected> None </paper-radio-button>
+          		</paper-radio-group>
           		<paper-number-input id="fuel_auton"
           		    label = " Fuel Scored (kPa) "
           		    min = "0"
-          		value = "0"
-          		step = "1"
-          		fallback-value = "0"
-          		>
-          		</paper-number-input>
+          				value = "0"
+          				step = "1"
+          				fallback-value = "0">
+							</paper-number-input>
           		<br>
           		<paper-number-input id="hoppers_auton"
-          		label = " Hoppers Triggered "
-          		min = "0"
-          		value = "0"
-          		step = "1"
-          		fallback-value = "0"
-          		>
-          		</paper-number-input>
+          				label = " Hoppers Triggered "
+          				min = "0"
+          				value = "0"
+          				step = "1"
+          				fallback-value = "0"> 
+							</paper-number-input>
           		<div>
-	      		
+
           		<div class="rectangle" style="font-size:24px;" >Teleop</div>
           		<div>
-          		        <paper-number-input id="gear_score_teleop" always-float-label align="center" label="Gears Scored:" min = "0"
-          		        value = "0" step = "1" fallback-value = "0" ></paper-number-input>
-          		        <paper-number-input id="gear_drop_teleop" always-float-label align="center" label="Gears Dropped:" min = "0"
-          		        value = "0" step = "1" fallback-value = "0" ></paper-number-input>
-          		        <paper-number-input id="fuel_score_teleop" always-float-label align="center" label="Fuel Scored:" min = "0"
-          		        value = "0" step = "1" fallback-value = "0" ></paper-number-input>
-          		        <br>
-          		        <iron-label>
-          		            Climb?
-          		        </iron-label>
-          		        <toggle-icon id="climb" required=true icon="icons:thumb-up" animation="flip-vertical" class="green-red"></toggle-icon>
-          		        <br>
-          		        <iron-label>
-          		        Yellow Card?
-          		        	</iron-label>
-          		        <toggle-icon id="yellow_card" required=true icon="icons:thumb-down" animation="flip-vertical" class="green-red"></toggle-icon>
-          		        <br>
-          		        <br>
-          		        <div class="rectangle"><b>Comments:</div></b>
-          		        <paper-textarea id="comments" always-float-label label="Please note in the comments how the robot behaved on the field.
-	      			    Make sure to note if robot was not functional or repeatedly incurred fouls."> </paper-textarea>
-          		        <br>
-          		        
-          		  </div>
+          		  <paper-number-input id="gear_score_teleop" always-float-label align="center" label="Gears Scored:" min = "0"
+          		  		value = "0" step = "1" fallback-value = "0"> 
+								</paper-number-input>
+          		  <paper-number-input id="gear_drop_teleop" always-float-label align="center" label="Gears Dropped:" min = "0"
+          		  		value = "0" step = "1" fallback-value = "0" >
+								</paper-number-input>
+          		  <paper-number-input id="fuel_score_teleop" always-float-label align="center" label="Fuel Scored:" min = "0"
+          		  		value = "0" step = "1" fallback-value = "0" >
+								</paper-number-input>
+          		  <br>
+          		  <iron-label>
+          		    Climb?
+          		  </iron-label>
+          		  <toggle-icon id="climb" required=true icon="icons:thumb-up" animation="flip-vertical" class="green-red"></toggle-icon>
+          		  <br>
+          		  <iron-label>
+          		  	Yellow Card?
+          		  </iron-label>
+          		  <toggle-icon id="yellow_card" required=true icon="icons:thumb-down" animation="flip-vertical" class="green-red"></toggle-icon>
+          		  <br>
+          		  <br>
+          		  <div class="rectangle"><b>Comments:</div></b>
+          		  <paper-textarea id="comments" always-float-label label="Please note in the comments how the robot behaved on the field.
+	      			    	Make sure to note if robot was not functional or repeatedly incurred fouls."> 
+								</paper-textarea>
+          		  <br>
+      
+          		</div>
 	  	  	    <paper-button on-click="submit_data"> Submit </paper-button>
       		    <paper-button on-click="close_data"> Edit other sheet </paper-button>
-			  </div>
-			  </form>
-      		</iron-form>
-	  	  <p id="success_log"></p>
+			  		</div>
+			  	</form>
+      	</iron-form>
+	  	 	<p id="success_log"></p>
 	  	  <p id="error_log"></p>
+			</div>
 		</div>
-	  </div>
-	</div>
-  </template>
+	</template>
 
   <script>
     class MyInputData extends Polymer.Element {
-      static get is() { return 'my-inputdata'; }
+      	static get is() { return 'my-inputdata'; }
    
-    load_data() {
-		var match = this.$.match.value;
-		var team = this.$.team.value;
+    		load_data() {
+						var match = this.$.match.value;
+						var team = this.$.team.value;
 
-		// First fill our form with its default values, clean slate
-        this.$.groundpickup_gears.checked = false;
-		this.$.groundpickup_fuel.checked = false;
-		this.$.fscore_high.checked = false;
-		this.$.fscore_low.checked = false;
-		this.$.crossg.checked = true;
-		this.$.successgr.selected = "NO";
-		this.$.grroutine.selected = "NONE";
-		this.$.fuel_auton.value = "0";
-		this.$.hoppers_auton.value = "0";
-		this.$.gear_score_teleop.value = "0";
-		this.$.gear_drop_teleop.value = "0";
-		this.$.fuel_score_teleop.value = "0";
-		this.$.climb.checked = false;
-		this.$.yellow_card.checked  = false;
-		this.$.comments.value = "";
+						// First fill our form with its default values, clean slate
+    				this.$.groundpickup_gears.checked = false;
+						this.$.groundpickup_fuel.checked = false;
+						this.$.fscore_high.checked = false;
+						this.$.fscore_low.checked = false;
+						this.$.crossg.checked = true;
+						this.$.successgr.selected = "NO";
+						this.$.grroutine.selected = "NONE";
+						this.$.fuel_auton.value = "0";
+						this.$.hoppers_auton.value = "0";
+						this.$.gear_score_teleop.value = "0";
+						this.$.gear_drop_teleop.value = "0";
+						this.$.fuel_score_teleop.value = "0";
+						this.$.climb.checked = false;
+						this.$.yellow_card.checked  = false;
+						this.$.comments.value = "";
 
-		// Try to find data in server and fill in our form
-		$.ajax({
+						// Try to find data in server and fill in our form
+						$.ajax({
                 url: "/getdata?match_number=" + match + "&team_number=" + team,
                 type: "GET",
                 success: (data) => { // We use Lambda (=>) instead of function() because it preserves "this"
                     if (data.length == 0) {
-						console.log("ANGERY");
-						return;
-					}
-        			console.log(data);
+												console.log("ANGERY");
+												return;
+										}
+        						console.log(data);
                     data = data[0]; // object is stored in array
-					this.$.groundpickup_gears.checked = data.ground_pickup_gear != 0;
-					this.$.groundpickup_fuel.checked = data.ground_pickup_fuel != 0;
-					this.$.fscore_high.checked = data.fuel_scoring_high != 0;
-					this.$.fscore_low.checked = data.fuel_scoring_low != 0;
-					this.$.crossg.checked = !data.cross_green_line != 0;
-					this.$.successgr.selected = data.gear_score;
-					this.$.grroutine.selected = data.gear_routine;
-					this.$.fuel_auton.value = data.fuel_auton;
-					this.$.hoppers_auton.value = data.hoppers;
-					this.$.gear_score_teleop.value = data.gears_scored;
-					this.$.gear_drop_teleop.value = data.gears_dropped;
-					this.$.fuel_score_teleop.value = data.fuel_teleop;
-					this.$.climb.checked = !data.climb != 0;
-					this.$.yellow_card.checked  = !data.yellow_card != 0;
-					this.$.comments.value = data.comments;
-				},
-			 	error: function(data) {
-					this.$.warning_log.innerHTML = "<br> <h4> ERROR </h4> Did not load data, prior data might exist. Be wary when uploading<br>";
+										this.$.groundpickup_gears.checked = data.ground_pickup_gear != 0;
+										this.$.groundpickup_fuel.checked = data.ground_pickup_fuel != 0;
+										this.$.fscore_high.checked = data.fuel_scoring_high != 0;
+										this.$.fscore_low.checked = data.fuel_scoring_low != 0;
+										this.$.crossg.checked = !data.cross_green_line != 0;
+										this.$.successgr.selected = data.gear_score;
+										this.$.grroutine.selected = data.gear_routine;
+										this.$.fuel_auton.value = data.fuel_auton;
+										this.$.hoppers_auton.value = data.hoppers;
+										this.$.gear_score_teleop.value = data.gears_scored;
+										this.$.gear_drop_teleop.value = data.gears_dropped;
+										this.$.fuel_score_teleop.value = data.fuel_teleop;
+										this.$.climb.checked = !data.climb != 0;
+										this.$.yellow_card.checked  = !data.yellow_card != 0;
+										this.$.comments.value = data.comments;
+								},
+			 					error: function(data) {
+										this.$.warning_log.innerHTML = "<br> <h4> ERROR </h4> Did not load data, " \
+													+ "prior data might exist. Be wary when uploading<br>";
+								}
+						});
+
+						this.$.loadable_sheet.style.display="block";
+						this.$.load_sheet_button.style.display="none";
 				}
-		});
 
-		this.$.loadable_sheet.style.display="block";
-		this.$.load_sheet_button.style.display="none";
-	}
+				close_data() {
+						this.$.loadable_sheet.style.display="none";
+						this.$.load_sheet_button.style.display="block";
+				}
 
-	close_data() {
-		this.$.loadable_sheet.style.display="none";
-		this.$.load_sheet_button.style.display="block";
-	}
+    		submit_data() {
+      			//var form = $("#scout_form");
+      			var info = {
+        				match_number: this.$.match.value,
+        				team_number: this.$.team.value,
+								ground_pickup_gear: this.$.groundpickup_gears.checked  ? 1 : 0,
+								ground_pickup_fuel: this.$.groundpickup_fuel.checked  ? 1 : 0,
+								fuel_scoring_high: this.$.fscore_high.checked  ? 1 : 0,
+								fuel_scoring_low: this.$.fscore_low.checked  ? 1 : 0,
+								cross_green_line: !this.$.crossg.checked  ? 1 : 0,
+								gear_score: this.$.successgr.selected,
+								gear_routine: this.$.grroutine.selected,
+								fuel_auton: this.$.fuel_auton.value,
+								hoppers: this.$.hoppers_auton.value,
+								gears_scored: this.$.gear_score_teleop.value,
+								gears_dropped: this.$.gear_drop_teleop.value,
+								fuel_teleop: this.$.fuel_score_teleop.value,
+								climb: !this.$.climb.checked  ? 1 : 0,
+								yellow_card: !this.$.yellow_card.checked  ? 1 : 0,
+								comments: this.$.comments.value
+      			};
+      			console.log(this.$.crossg.checked);
+      			console.log(this.$.crossg.checked? 1 : 0);
+      			//console.log(!this.$.yellow_card.checked);
+	  				//console.log(this.$.comments.value);
+	  				//console.log(this.$.successgr);
+	  				//console.log(this.$.successgr.selected);
 
-    submit_data() {
-      //var form = $("#scout_form");
-      var info = {
-        match_number: this.$.match.value,
-        team_number: this.$.team.value,
-		ground_pickup_gear: this.$.groundpickup_gears.checked  ? 1 : 0,
-		ground_pickup_fuel: this.$.groundpickup_fuel.checked  ? 1 : 0,
-		fuel_scoring_high: this.$.fscore_high.checked  ? 1 : 0,
-		fuel_scoring_low: this.$.fscore_low.checked  ? 1 : 0,
-		cross_green_line: !this.$.crossg.checked  ? 1 : 0,
-		gear_score: this.$.successgr.selected,
-		gear_routine: this.$.grroutine.selected,
-		fuel_auton: this.$.fuel_auton.value,
-		hoppers: this.$.hoppers_auton.value,
-		gears_scored: this.$.gear_score_teleop.value,
-		gears_dropped: this.$.gear_drop_teleop.value,
-		fuel_teleop: this.$.fuel_score_teleop.value,
-		climb: !this.$.climb.checked  ? 1 : 0,
-		yellow_card: !this.$.yellow_card.checked  ? 1 : 0,
-		comments: this.$.comments.value
-      };
-      console.log(this.$.crossg.checked);
-      console.log(this.$.crossg.checked? 1 : 0);
-      //console.log(!this.$.yellow_card.checked);
-	  //console.log(this.$.comments.value);
-	  //console.log(this.$.successgr);
-	  //console.log(this.$.successgr.selected);
+	  				console.log(info);
 
-	  console.log(info);
+	  				/*console.log(this.$.team.value);
+    				  console.log(form.serialize());*/
 
-	  /*console.log(this.$.team.value);
-      console.log(form.serialize());*/
-
-      $.ajax({
-            url: "/scout",
-            type: "post",
-            data: info,//scout_form.serialize(),
-            success: function(data) {
-                if (data.result === "success") {
-                    this.$.success_log.innerHTML = "Successfully updated!";
-                    this.$.error_log.innerHTML = "";
-                } else if (data.result === "invalid") {
-                    this.$.success_log.innerHTML = "";
-                    this.$.error_log.innerHTML = "Invalid data. "
-                        + "Make sure that all small int values are from 0-255 (inclusive), "
-                        + "and ensure that the data is realistic <br><br> ERROR: " + data.error;
-                }
-            },
-            
-            error: function() {
-
-                this.$.error_log.innerHTML = "Invalid data. " + "Make sure that all small int values are from 0-255 (inclusive), " + "and ensure that the data is realistic <br><br> ERROR: " + data.error;
-                /*$("#error_log").html("Failed to update. Try using QR (once we get that up and running)");
-                $("#success_log").html("");*/
-            }
-       } );
+      			$.ajax({
+      			    url: "/scout",
+      			    type: "post",
+      			    data: info,//scout_form.serialize(),
+      			    success: function(data) {
+      			        if (data.result === "success") {
+      			            this.$.success_log.innerHTML = "Successfully updated!";
+      			            this.$.error_log.innerHTML = "";
+      			        } else if (data.result === "invalid") {
+      			            this.$.success_log.innerHTML = "";
+      			            this.$.error_log.innerHTML = "Invalid data. "
+      			                + "Make sure that all small int values are from 0-255 (inclusive), "
+      			                + "and ensure that the data is realistic <br><br> ERROR: " + data.error;
+      			        }
+      			    },
+      			    
+      			    error: function() {
+      			        this.$.error_log.innerHTML = "Invalid data. " 
+												+ "Make sure that all small int values are from 0-255 (inclusive), " 
+												+ "and ensure that the data is realistic <br><br> ERROR: " + data.error;
+      			        /*$("#error_log").html("Failed to update. Try using QR (once we get that up and running)");
+      			        $("#success_log").html("");*/
+      			    }
+						});
+    		}
     }
-    }
-    
     window.customElements.define(MyInputData.is, MyInputData);
-
   </script>
 </dom-module>
