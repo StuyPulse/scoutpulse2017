@@ -167,6 +167,51 @@ app.get('/getdata', function(req, res) {
     });
 });
 
+// Get ALL team data from specific teams within a certain match or of a team number
+// NOTE: This is NOT uni-wildcard-esque as getdata is.
+//    as in, you cannot have both match_number and team_number arguments
+//       (both can be empty to get all data though)
+app.get('/getteamdata', function(req, res) {
+
+    var parts = url.parse(req.url, true);
+    var data = parts.query;
+    var match_number = data['match_number'];
+    var team_number = data['team_number'];
+
+		var queryList = "";
+
+		if (team_number != null && team_number !== "") {
+				queryList = " WHERE m.team_number=" + sql.escape(team_number);
+		}
+		if (match_number != null && match_number !== "") {
+				queryList = " WHERE m.match_number=" + sql.escape(match_number);
+		}
+		sql.query('SELECT team_number FROM matches m' + queryList, function(err, result1, fields) {
+				if (err) throw err;
+				var data = {};
+				var counter = 0;
+
+				if (result1.length == 0) {
+						res.send(data);
+						return;
+				}
+
+				var query_recursive = function(err, result2, fields) {
+						var element = result1[counter];
+
+						console.log(element.team_number);
+						data[element.team_number] = result2;
+						if (result1[counter + 1] === undefined) {
+								res.send(data);
+								return;
+						}
+						counter++;
+						sql.query('SELECT * FROM matches m WHERE m.team_number=' + sql.escape(result1[counter].team_number), query_recursive);
+				}
+				sql.query('SELECT * FROM matches m WHERE m.team_number=' + sql.escape(result1[0].team_number), query_recursive);
+
+		});
+});
 
 app.get("*", function(req, res) {
     res.sendFile('index.html', {root: '.'});
