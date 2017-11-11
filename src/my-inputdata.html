@@ -47,7 +47,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 					<form  method="post" action="/scout" >
             <paper-input always-float-label align="center" id="match"label="Match Number: "></paper-input>
             <paper-input always-float-label align="center" id="team" label="Team: "></paper-input>
-          
+
 	  				<paper-button id="load_sheet_button" on-click="load_data"> Load Sheet </paper-button>
 
 						<div id="loadable_sheet" style="display:none">
@@ -106,16 +106,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           				min = "0"
           				value = "0"
           				step = "1"
-          				fallback-value = "0"> 
+          				fallback-value = "0">
 							</paper-number-input>
           		<div>
 
           		<div class="rectangle" style="font-size:24px;" >Teleop</div>
           		<div>
           		  <paper-number-input id="gear_score_teleop" always-float-label align="center" label="Gears Scored:" min = "0"
-          		  		value = "0" step = "1" fallback-value = "0"> 
+          		  		value = "0" step = "1" fallback-value = "0">
 								</paper-number-input>
-          		  <paper-number-input id="gear_drop_teleop" always-float-label align="center" label="Gears Dropped:" min = "0"
+          		  <paper-number-input id="gear_drop_teleop" always-float-label align="center" label="Gears Dropped At Peg:" min = "0"
           		  		value = "0" step = "1" fallback-value = "0" >
 								</paper-number-input>
           		  <paper-number-input id="fuel_score_teleop" always-float-label align="center" label="Fuel Scored:" min = "0"
@@ -135,10 +135,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           		  <br>
           		  <div class="rectangle"><b>Comments:</div></b>
           		  <paper-textarea id="comments" always-float-label label="Please note in the comments how the robot behaved on the field.
-	      			    	Make sure to note if robot was not functional or repeatedly incurred fouls."> 
+	      			    	Make sure to note if robot was not functional or repeatedly incurred fouls.">
 								</paper-textarea>
           		  <br>
-      
+
           		</div>
 	  	  	    <paper-button on-click="submit_data"> Submit </paper-button>
       		    <paper-button on-click="close_data"> Edit other sheet </paper-button>
@@ -154,7 +154,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>
     class MyInputData extends Polymer.Element {
       	static get is() { return 'my-inputdata'; }
-   
+
     		load_data() {
 						var match = this.$.match.value;
 						var team = this.$.team.value;
@@ -204,7 +204,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 										this.$.comments.value = data.comments;
 								},
 			 					error: function(data) {
-										this.$.warning_log.innerHTML = "<br> <h4> ERROR </h4> Did not load data, " 
+										this.$.warning_log.innerHTML = "<br> <h4> ERROR </h4> Did not load data, "
 													+ "prior data might exist. Be wary when uploading<br>";
 								}
 						});
@@ -266,10 +266,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       			                + "and ensure that the data is realistic <br><br> ERROR: " + data.error;
       			        }
       			    },
-      			    
+
       			    error: function() {
-      			        this.$.error_log.innerHTML = "Invalid data. " 
-												+ "Make sure that all small int values are from 0-255 (inclusive), " 
+      			        this.$.error_log.innerHTML = "Invalid data. "
+												+ "Make sure that all small int values are from 0-255 (inclusive), "
 												+ "and ensure that the data is realistic <br><br> ERROR: " + data.error;
       			        /*$("#error_log").html("Failed to update. Try using QR (once we get that up and running)");
       			        $("#success_log").html("");*/
