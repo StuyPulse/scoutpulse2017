@@ -22,6 +22,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-inputdata">
@@ -52,19 +55,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
     <div class="card">
-      <div class="rectangle" style="font-size:24px;">Auton</div>
         <paper-toast id="notif_toast_error" class="notif_error" text="Notification!" vertical-align horizontal-align > </paper-toast>
         <paper-toast id="notif_toast_normal" class="notif_normal" text="Notification!" vertical-align horizontal-align > </paper-toast>
       <div>
         <iron-form id="scout_form">
-			<form  method="post" action="/scout" >
-            <paper-input always-float-label align="center" id="match"label="Match Number: "></paper-input>
-            <paper-input always-float-label align="center" id="team" label="Team: "></paper-input>
+			    <form  method="post" action="/scout" >
+            <div id="sheet_key_info" style="display:block">
+              <div class="rectangle">Input</div>
+              <paper-input always-float-label align="center" id="team" label="Team: "></paper-input>
+              <paper-input always-float-label align="center" id="match"label="Match Number: "></paper-input>
+              <paper-dropdown-menu id="match_type" label="Match Type">
+                <paper-listbox slot="dropdown-content" selected="1">
+                  <paper-item>Practice</paper-item>
+                  <paper-item>Qualifier</paper-item>
+                  <paper-item>Quarterfinals</paper-item>
+                  <paper-item>Semifinals</paper-item>
+                  <paper-item>Finals</paper-item>
+                </paper-listbox>
+              </paper-dropdown-menu>
 
-	  				<paper-button id="load_sheet_button" on-click="load_data"> Load Sheet </paper-button>
-
+              <br>
+	  				  <paper-button id="load_sheet_button" on-click="load_data"> Load Sheet </paper-button>
+            </div>
 						<div id="loadable_sheet" style="display:none">
-							<iron-label for="groundpickup">
+              <div class="rectangle" style="font-size:24px;">Auton</div>
+							<h3> <p id="loadable_sheet_team_number" style=""></p> <p id="loadable_sheet_match_number" style=""></p>  </h3> <br><br>
+              <iron-label for="groundpickup">
           			Ground Pickup? &nbsp;&nbsp;&nbsp;
           		</iron-label>
           		<iron-selector id="groundpickup" attr-for-selected="gpick" selected-attribute="checked">
@@ -185,8 +201,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
     		load_data() {
-						var match = this.$.match.value;
-						var team = this.$.team.value;
+						var match = this.$.match_type.value + " " + this.$.match.value;
+						console.log("MATCH: " + match);
+            var team = this.$.team.value;
 
 						// First fill our form with its default values, clean slate
     				this.$.groundpickup_gears.checked = false;
@@ -201,7 +218,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 						this.$.gear_score_teleop.value = "0";
 						this.$.gear_drop_teleop.value = "0";
 						this.$.fuel_score_teleop.value = "0";
-						this.$.climb.checked = false;
+						this.$.climb.checked = true;
 						this.$.yellow_card.checked  = true;
 						this.$.comments.value = "";
 
@@ -240,18 +257,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 						});
 
 						this.$.loadable_sheet.style.display="block";
-						this.$.load_sheet_button.style.display="none";
-				}
+						this.$.sheet_key_info.style.display="none";
+            //this.$.load_sheet_button.style.display="none";
+				    this.$.loadable_sheet_team_number.innerHTML = "Team " + team;
+				    this.$.loadable_sheet_match_number.innerHTML = match;
+        }
 
 				close_data() {
 						this.$.loadable_sheet.style.display="none";
-						this.$.load_sheet_button.style.display="block";
+						this.$.sheet_key_info.style.display="block";
+            //this.$.load_sheet_button.style.display="block";
 				}
 
     		submit_data() {
       			//var form = $("#scout_form");
       			var info = {
-        				match_number: this.$.match.value,
+        				match_number: this.$.match_type.value + " " + this.$.match.value,
         				team_number: this.$.team.value,
 								ground_pickup_gear: this.$.groundpickup_gears.checked  ? 1 : 0,
 								ground_pickup_fuel: this.$.groundpickup_fuel.checked  ? 1 : 0,
@@ -288,6 +309,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       			    data: info,//scout_form.serialize(),
       			    success: function(data) {
                     base.set_notif_normal_message("Successfully Updated!");
+                    console.log("Result: " + data.result);
                     /*if (data.result === "success") {
       			            this.set_notif_normal_message("Successfully Updated!");
                     } else if (data.result === "invalid") {
