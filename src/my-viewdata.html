@@ -23,6 +23,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-number-input/paper-number-input.html">
 <link rel="import" href="../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
 
 <dom-module id="my-viewdata">
   <template>
@@ -42,26 +45,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <!-- TODO: Why is there an extra div here? -->
 			<div>
       	<form id="form3">
+      		<h3> Team Number only </h3>
 					<paper-input id="team_number_input" always-float-label align="center" label="Team Number:"></paper-input>
       		<paper-button raised on-click="submit_query_team"> By Team Number </paper-button>
 					<br>
-      		<paper-input id="match_number_input" always-float-label align="center" label="Match Number:"></paper-input>
+					<br>
+      		<h3> Match only </h3>
+					<paper-input id="match_number_input" always-float-label align="center" label="Match Number:"></paper-input>
+          <paper-dropdown-menu id="match_type" label="Match Type">
+            <paper-listbox slot="dropdown-content" selected="1">
+              <paper-item>Practice</paper-item>
+              <paper-item>Qualifier</paper-item>
+              <paper-item>Quarterfinals</paper-item>
+              <paper-item>Semifinals</paper-item>
+              <paper-item>Finals</paper-item>
+            </paper-listbox>
+          </paper-dropdown-menu>
+      		<br>
+					<br>
 					<paper-button raised on-click="submit_query_match"> For a match </paper-button>
+              <!--<paper-dropdown-menu id="match_type" label="Match Type">
+                <paper-listbox slot="dropdown-content" selected="1">
+                  <paper-item>Practice</paper-item>
+                  <paper-item>Qualifier</paper-item>
+                  <paper-item>Quarterfinals</paper-item>
+                  <paper-item>Semifinals</paper-item>
+                  <paper-item>Finals</paper-item>
+                </paper-listbox>
+              </paper-dropdown-menu>-->
       		<br>
 			<br>
 			<br>
-
-					<paper-button raised on-click="submit_query_all"> Every Team </paper-button>
-      		<br>
-      		<!--<div class="rectangle"> What competition? </div>
-
-      		<paper-listbox slot="dropdown-content" selected="1">
-      		  <paper-item id="brunswick">Brunswick Eruption</paper-item>
-      		  <paper-item id="florida">Florida</paper-item>
-      		  <paper-item id="st.louis">St.Louis</paper-item>
-      		  <paper-item id="newyork">New York</paper-item>
-      		  <paper-item id="pennsylvania">Pennsylvania: Ramp Riot</paper-item>
-      		</paper-listbox>-->
+					<h3> All Matches and Teams </h3>
+			  	<paper-button raised on-click="submit_query_all"> Every Team </paper-button>
       		<br>
       	</form>
      	</div>
@@ -94,7 +110,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         static get is() { return 'my-viewdata'; }
 
 				submit_query_match() {
-					var match_number = this.$.match_number_input.value;
+					var match_number = this.$.match_type.value + " " + this.$.match_number_input.value;
 					var base = this;
 					$.ajax({
             		    url: "/getteamdata?match_number=" + match_number,
