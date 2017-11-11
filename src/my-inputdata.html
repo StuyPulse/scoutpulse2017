@@ -60,7 +60,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 			<form  method="post" action="/scout" >
             <paper-input always-float-label align="center" id="match"label="Match Number: "></paper-input>
             <paper-input always-float-label align="center" id="team" label="Team: "></paper-input>
-          
+
 	  				<paper-button id="load_sheet_button" on-click="load_data"> Load Sheet </paper-button>
 
 						<div id="loadable_sheet" style="display:none">
@@ -119,16 +119,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           				min = "0"
           				value = "0"
           				step = "1"
-          				fallback-value = "0"> 
+          				fallback-value = "0">
 							</paper-number-input>
           		<div>
 
           		<div class="rectangle" style="font-size:24px;" >Teleop</div>
           		<div>
           		  <paper-number-input id="gear_score_teleop" always-float-label align="center" label="Gears Scored:" min = "0"
-          		  		value = "0" step = "1" fallback-value = "0"> 
+          		  		value = "0" step = "1" fallback-value = "0">
 								</paper-number-input>
-          		  <paper-number-input id="gear_drop_teleop" always-float-label align="center" label="Gears Dropped:" min = "0"
+          		  <paper-number-input id="gear_drop_teleop" always-float-label align="center" label="Gears Dropped At Peg:" min = "0"
           		  		value = "0" step = "1" fallback-value = "0" >
 								</paper-number-input>
           		  <paper-number-input id="fuel_score_teleop" always-float-label align="center" label="Fuel Scored:" min = "0"
@@ -143,15 +143,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           		  <iron-label>
           		  	Yellow Card?
           		  </iron-label>
-          		  <toggle-icon id="yellow_card" required=true icon="icons:thumb-down" animation="flip-vertical" class="green-red"></toggle-icon>
+          		  <toggle-icon id="yellow_card" required=true icon="icons:thumb-up" animation="flip-vertical" class="green-red"></toggle-icon>
           		  <br>
           		  <br>
           		  <div class="rectangle"><b>Comments:</div></b>
           		  <paper-textarea id="comments" always-float-label label="Please note in the comments how the robot behaved on the field.
-	      			    	Make sure to note if robot was not functional or repeatedly incurred fouls."> 
+	      			    	Make sure to note if robot was not functional or repeatedly incurred fouls.">
 								</paper-textarea>
           		  <br>
-      
+
           		</div>
 	  	  	    <paper-button on-click="submit_data"> Submit </paper-button>
       		    <paper-button on-click="close_data"> Edit other sheet </paper-button>
@@ -202,7 +202,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 						this.$.gear_drop_teleop.value = "0";
 						this.$.fuel_score_teleop.value = "0";
 						this.$.climb.checked = false;
-						this.$.yellow_card.checked  = false;
+						this.$.yellow_card.checked  = true;
 						this.$.comments.value = "";
 
 						// Try to find data in server and fill in our form
@@ -280,7 +280,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 	  				/*console.log(this.$.team.value);
     				  console.log(form.serialize());*/
-                
+
                 var base = this;
       			$.ajax({
       			    url: "/scout",
@@ -298,8 +298,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       			    },
 
       			    error: function() {
-                    base.set_notif_error_message("Invalid data! "
-                    + "Make sure that all inputs are less than 255 and greater than 0");
+                    base.set_notif_error_message("Failed to update!"
+                        + "Either your internet is bad, or your data is invalid! (counters must be 0 to 255 only)");
+                    /*(base.set_notif_error_message("Invalid data! "
+                    + "Make sure that all inputs are less than 255 and greater than 0");*/
       			        /*$("#error_log").html("Failed to update. Try using QR (once we get that up and running)");
       			        $("#success_log").html("");*/
       			    }
