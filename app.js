@@ -91,7 +91,7 @@ app.post('/scout', function(req, res) {
     get_request_data(req, function(data) {
         console.log(data);
 
-            //sql.query('SELECT 1 FROM matches m WHERE m.match_number=\'' + data.match_number + '\' AND m.team_number=\'' + data.team_number + '\'', function(err, result, fields) {
+        //sql.query('SELECT 1 FROM matches m WHERE m.match_number=\'' + data.match_number + '\' AND m.team_number=\'' + data.team_number + '\'', function(err, result, fields) {
         sql.query('SELECT 1 FROM matches m WHERE m.match_number=? AND m.team_number=?', [data.match_number, data.team_number] , function(err, result, fields) {
             if (err) {
                 throw err;             
@@ -110,14 +110,14 @@ app.post('/scout', function(req, res) {
                 }
             });
  
-            if (abort != null) {
-                return res.send(abort);
-            }
+          if (abort != null) {
+              return res.send(abort);
+          }
 
 	        if (result.length == 0) {
-                //if (result) <--?
-                return res.send(sql_fast_insert('matches', data));
-            } else {
+              //if (result) <--?
+              return res.send(sql_fast_insert('matches', data));
+          } else {
                 // TODO: Make this sql injection proof
                 return res.send(sql_fast_update('matches', data, 'match_number=\'' + data.match_number + '\' AND team_number=\'' + data.team_number + '\''));
             }
@@ -215,7 +215,7 @@ app.get('/getteamdata', function(req, res) {
 });
 
 app.get("*", function(req, res) {
-    res.sendFile('index.html', {root: '.'});
+    res.sendFile('index.html', {root: __dirname});
 });
 
 // START LISTENING
