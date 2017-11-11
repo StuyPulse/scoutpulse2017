@@ -20,8 +20,9 @@ bower install polymer/polymer#2.0.0 --allow-root
 apt-get install mysql-client
 apt-get install mysql-server
 
-echo "Base Installation stuff complete."
-echo "Now you need to configure the mysql server and a systemd process to keep the server running"
+
+echo "\n\n\nBase installation is DONE\n\n"
+echo "Now you need to configure the mysql server and a systemd process to keep the server running."
 echo "\n To config the mysql database, run \"$mysql -u root -p\""
 echo "Inside the mysql shell, run \"create database db;\" or whataver the database is called (inside app.js)"
-echo "\n"
+echo "\n\n"
