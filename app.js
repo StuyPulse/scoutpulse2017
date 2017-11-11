@@ -7,15 +7,14 @@ const mysql = require('mysql');
 
 const app = express();
 
-const SITE_PORT = 80;
+const SITE_PORT = 8000;
 const TEMPLATE_FOLDER = 'templates'
 
 var sql;
 
 app.use(express.static(path.join(__dirname)));
 
-
-fs.readFile(path.join(__dirname, 'password'), 'utf8', function(err, data) {
+fs.readFile('./password', 'utf8', function(err, data) {
     if (err) {
         console.log("\n\nCANNOT RUN SERVER:\nNo password file for mysql located in root directory."
                 + "\n Please create a file called \'password\' and write the mysql database password"

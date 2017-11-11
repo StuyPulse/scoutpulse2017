@@ -130,7 +130,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           		  <iron-label>
           		  	Yellow Card?
           		  </iron-label>
-          		  <toggle-icon id="yellow_card" required=true icon="icons:thumb-up" animation="flip-vertical" class="green-red"></toggle-icon>
+          		  <toggle-icon id="yellow_card" required=true icon="icons:thumb-down" animation="flip-vertical" class="green-red"></toggle-icon>
           		  <br>
           		  <br>
           		  <div class="rectangle"><b>Comments:</div></b>
@@ -250,19 +250,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 	  				/*console.log(this.$.team.value);
     				  console.log(form.serialize());*/
-                
-                var base = this;
+
       			$.ajax({
       			    url: "/scout",
       			    type: "post",
       			    data: info,//scout_form.serialize(),
       			    success: function(data) {
       			        if (data.result === "success") {
-      			            base.$.success_log.innerHTML = "Successfully updated!";
-      			            base.$.error_log.innerHTML = "";
+      			            this.$.success_log.innerHTML = "Successfully updated!";
+      			            this.$.error_log.innerHTML = "";
       			        } else if (data.result === "invalid") {
-      			            base.$.success_log.innerHTML = "";
-      			            base.$.error_log.innerHTML = "Invalid data. "
+      			            this.$.success_log.innerHTML = "";
+      			            this.$.error_log.innerHTML = "Invalid data. "
       			                + "Make sure that all small int values are from 0-255 (inclusive), "
       			                + "and ensure that the data is realistic <br><br> ERROR: " + data.error;
       			        }

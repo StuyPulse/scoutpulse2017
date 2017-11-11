@@ -1,6 +1,5 @@
 # Server Specific ignore files
 password
-package-lock.json
 
 # Logs
 logs
