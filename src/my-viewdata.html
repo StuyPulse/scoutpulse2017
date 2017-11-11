@@ -259,62 +259,99 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     		//The following code below draws the table that shows the general chart.
     		drawTable(dat, base) {
     		  	var data = new google.visualization.DataTable();
-    		  	data.addColumn('string', 'Team Name');
-    		  	data.addColumn('string', 'Average Auton Fuel')
-    		  	data.addColumn('string', 'Auton Gear Routines');
-    		  	data.addColumn('string', 'Auton Gear Percentage');
-    		  	data.addColumn('string', 'Average Teleop Gears');
-    		  	data.addColumn('string', 'Average Teleop Fuel');
-    		  	data.addColumn('string', 'Climb Rate');
-						var length = Object.keys(dat).length;
-						Object.keys(dat).forEach(function(element) {
-								var name = element;
-								var auton_fuel_sum = 0;
-								var auton_gear_routines = {
-										"CENTER": false,
-										"HP": false,
-										"BOILER": false
-								};
-								var auton_gear_sum = 0;
-								var teleop_gear_sum = 0;
-								var teleop_fuel_sum = 0;
-								var climb_sum = 0;
-								dat[element].forEach(function(mdata) {
-										auton_fuel_sum += mdata.fuel_auton;
-										auton_gear_sum += (mdata.gear_score === "YES" ? 1 : 0);
-										teleop_gear_sum += mdata.gears_scored;
-										teleop_fuel_sum += mdata.fuel_teleop;
-										climb_sum += mdata.climb;
-										// Record that we have a gear routine, if it's not none
-										if (mdata.gear_routine !== "NONE")
-												auton_gear_routines[mdata.gear_routine] = true;
-								});
-							
-								// Construct a string telling us which gear methods the bot uses (can have multiple!)
-								var gear_routine_string = "";
-								if (!(auton_gear_routines["CENTER"] || auton_gear_routines["HP"] || auton_gear_routines["BOILER"])) {
-										gear_routine_string = "None";
-								} else {
-										gear_routine_string += auton_gear_routines["CENTER"] ? "Center " : "";
-										gear_routine_string += auton_gear_routines["HP"] ? "HP " : "";
-										gear_routine_string += auton_gear_routines["BOILER"] ? "Boiler" : "";
-								}
-								var row = [
-										name, 
-										'' + (auton_fuel_sum / length), 
-										gear_routine_string, 
-										(100.0 * auton_gear_sum / length) + "%",
-										'' + (teleop_gear_sum / length),
-										'' + (teleop_fuel_sum / length),
-										(100.0 * climb_sum / length) + "%"
-								]
-								console.log(row);
-								data.addRow(row);
-						});
+    		  	data.addColumn('string', 'Team #');
+    		  	data.addColumn('string', 'Match #');
+    		  	data.addColumn('string', 'Green Line?');
+    		  	data.addColumn('number', 'Auton Fuel')
+    		  	data.addColumn('number', 'Auton Hoppers Triggered')
+    		  	data.addColumn('string', 'Auton Gear Routine');
+    		  	data.addColumn('string', 'Pickups');
+    		  	data.addColumn('string', 'Boiler Shooting?');
+                data.addColumn('number', 'Teleop Gears Scored');
+                data.addColumn('number', 'Teleop Gears Dropped');
+    		  	data.addColumn('number', 'Teleop Fuel');
+    		  	data.addColumn('string', 'Climb?');
+    		  	data.addColumn('string', 'Yellow Card?');
+    		  	data.addColumn('string', 'Comments');
+
+			    var length = Object.keys(dat).length;
+			    Object.keys(dat).forEach(function(element) {
+			    	dat[element].forEach(function(mdata) {
+                        var pickups = '';
+                        var boiler = '';
+                        if (mdata.ground_pickup_gear) pickups += 'GEAR\n';
+                        if (mdata.ground_pickup_fuel) pickups += 'FUEL\n';
+                        if (pickups === '') pickups = 'NONE';
+
+                        if (mdata.fuel_scoring_high) boiler += 'HIGH\n';
+                        if (mdata.fuel_scoring_low) boiler += 'LOW\n';
+                        if (boiler === '') boiler = 'NONE';
+                        
+                        data.addRow([
+                            element,
+                            mdata.match_number,
+                            mdata.cross_green_line == 1 ? "YES" : "NO",
+                            mdata.fuel_auton,
+                            mdata.hoppers,
+                            mdata.gear_score,
+                            pickups,
+                            boiler,
+                            mdata.gears_scored,
+                            mdata.gears_dropped,
+                            mdata.fuel_teleop,
+                            mdata.climb == 1 ? "YES" : "NO",
+                            mdata.yellow_card == 1 ? "YES" : "NO",
+                            mdata.comments
+        
+                        ]);
+                    });
+                        /*var name = element;
+			    		var auton_fuel_sum = 0;
+			    		var auton_gear_routines = {
+			    				"CENTER": false,
+			    				"HP": false,
+			    				"BOILER": false
+			    		};
+			    		var auton_gear_sum = 0;
+			    		var teleop_gear_sum = 0;
+			    		var teleop_fuel_sum = 0;
+			    		var climb_sum = 0;
+			    		dat[element].forEach(function(mdata) {
+			    				auton_fuel_sum += mdata.fuel_auton;
+			    				auton_gear_sum += (mdata.gear_score === "YES" ? 1 : 0);
+			    				teleop_gear_sum += mdata.gears_scored;
+			    				teleop_fuel_sum += mdata.fuel_teleop;
+			    				climb_sum += mdata.climb;
+			    				// Record that we have a gear routine, if it's not none
+			    				if (mdata.gear_routine !== "NONE")
+			    						auton_gear_routines[mdata.gear_routine] = true;
+			    		});
+			    	
+			    		// Construct a string telling us which gear methods the bot uses (can have multiple!)
+			    		var gear_routine_string = "";
+			    		if (!(auton_gear_routines["CENTER"] || auton_gear_routines["HP"] || auton_gear_routines["BOILER"])) {
+			    				gear_routine_string = "None";
+			    		} else {
+			    				gear_routine_string += auton_gear_routines["CENTER"] ? "Center " : "";
+			    				gear_routine_string += auton_gear_routines["HP"] ? "HP " : "";
+			    				gear_routine_string += auton_gear_routines["BOILER"] ? "Boiler" : "";
+			    		}
+			    		var row = [
+			    				name, 
+			    				'' + (auton_fuel_sum / length), 
+			    				gear_routine_string, 
+			    				(100.0 * auton_gear_sum / length) + "%",
+			    				'' + (teleop_gear_sum / length),
+			    				'' + (teleop_fuel_sum / length),
+			    				(100.0 * climb_sum / length) + "%"
+			    		]
+			    		console.log(row);
+			    		data.addRow(row);
+			    	*/
+			    });
 
 
     		  	var table = new google.visualization.Table(base.$.table_div);
-
     		  	table.draw(data, {showRowNumber: true, width: '100%'});
     		}
     		//Eric's Wishes:
