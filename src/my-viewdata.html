@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <script type="text/javascript" src="/lib/jquery-3.2.1.min.js"> </script>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>	
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <!-- TODO: Are all of these imports necessary? idt so -->
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
@@ -75,7 +75,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </paper-dropdown-menu>-->
       		<br>
 			<br>
-			<br>
+			<h3> Scout Name Only (Include First and Last Name!) </h3>
+      <paper-input id="scout_name_input" always-float-label align="center" label="Scout Name:"></paper-input>
+        <paper-button raised on-click="submit_query_team"> By Scout Name: </paper-button>
+        <br>
 					<h3> All Matches and Teams </h3>
 			  	<paper-button raised on-click="submit_query_all"> Every Team </paper-button>
       		<br>
@@ -101,7 +104,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <br>
         <div id="line_plot" style="display:none"></div>
 				<br>
-			</center>	
+			</center>
 		</div>
 	</template>
 
@@ -119,7 +122,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         base.generate_graph(data, base);
                         base.generate_averages(data, base);
                     }
-            		}); 
+            		});
 				}
 
 				submit_query_team() {
@@ -132,7 +135,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         base.generate_graph(data, base);
                         base.generate_line_plot(data, base);
                     }
-            		}); 
+            		});
 				}
 
 				submit_query_all() {
@@ -144,7 +147,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             base.generate_graph(data, base);
                             base.generate_averages(data, base);
                         }
-            		}); 
+            		});
 				}
 
 				generate_graph(data, base) {
@@ -184,12 +187,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 						    //data.addColumn('string', element);
 					      var teleop_gear_sum = 0;
 					      var length = dat[element].length;
-                
+
                 dat[element].forEach(function(mdata) {
 						    	  teleop_gear_sum += mdata.gears_scored;
 						    });
 					      var row = [
-					      	  element, 
+					      	  element,
 					      	  teleop_gear_sum / length
 					      ]
                 data_table.push(row);
@@ -226,12 +229,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 						    //data.addColumn('string', element);
 					      var climb_sum = 0;
 					      var length = dat[element].length;
-                
+
                 dat[element].forEach(function(mdata) {
 						    	  climb_sum += mdata.climb;
 						    });
 					      var row = [
-					      	  element, 
+					      	  element,
 					      	  100 * climb_sum / length
 					      ]
                 data_table.push(row);
@@ -280,7 +283,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             data.push(["Match Number", "Gears Scored"]);
             // We assume we're only dealing with one team here
             var team = Object.keys(dat)[0];
-            
+
             dat[team].forEach(function(mdata) {
                 data.push([mdata.match_number, mdata.gears_scored]);
             });
@@ -327,7 +330,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         if (mdata.fuel_scoring_high) boiler += 'HIGH\n';
                         if (mdata.fuel_scoring_low) boiler += 'LOW\n';
                         if (boiler === '') boiler = 'NONE';
-                        
+
                         data.addRow([
                             element,
                             mdata.match_number,
@@ -343,7 +346,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             mdata.climb == 1 ? "YES" : "NO",
                             mdata.yellow_card == 1 ? "YES" : "NO",
                             mdata.comments
-        
+
                         ]);
                     });
                         /*var name = element;
@@ -367,7 +370,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 			    				if (mdata.gear_routine !== "NONE")
 			    						auton_gear_routines[mdata.gear_routine] = true;
 			    		});
-			    	
+
 			    		// Construct a string telling us which gear methods the bot uses (can have multiple!)
 			    		var gear_routine_string = "";
 			    		if (!(auton_gear_routines["CENTER"] || auton_gear_routines["HP"] || auton_gear_routines["BOILER"])) {
@@ -378,9 +381,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 			    				gear_routine_string += auton_gear_routines["BOILER"] ? "Boiler" : "";
 			    		}
 			    		var row = [
-			    				name, 
-			    				'' + (auton_fuel_sum / length), 
-			    				gear_routine_string, 
+			    				name,
+			    				'' + (auton_fuel_sum / length),
+			    				gear_routine_string,
 			    				(100.0 * auton_gear_sum / length) + "%",
 			    				'' + (teleop_gear_sum / length),
 			    				'' + (teleop_fuel_sum / length),
@@ -423,10 +426,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 			      	  		auton_mobility_sum += mdata.cross_green_line;
                     climb_sum += mdata.climb;
 			      	  });
-			      	  
+
 			      	  var row = [
-			      	  		element, 
-			      	  		(teleop_gear_sum / length), 
+			      	  		element,
+			      	  		(teleop_gear_sum / length),
 			      	  		(100.0 * auton_gear_sum / length) + "%",
 			      	  		(100.0 * auton_mobility_sum / length) + "%",
                     (100.0 * climb_sum / length) + "%"

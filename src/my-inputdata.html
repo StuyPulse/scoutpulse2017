@@ -64,6 +64,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <div class="rectangle">Input</div>
               <paper-input always-float-label align="center" id="team" label="Team: "></paper-input>
               <paper-input always-float-label align="center" id="match"label="Match Number: "></paper-input>
+              <paper-input always-float-label align="center" id="scoutName"label = "Scout Name: "> </paper-input>
               <paper-dropdown-menu id="match_type" label="Match Type">
                 <paper-listbox slot="dropdown-content" selected="1">
                   <paper-item>Practice</paper-item>
@@ -79,7 +80,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </div>
 						<div id="loadable_sheet" style="display:none">
               <div class="rectangle" style="font-size:24px;">Auton</div>
-							<h3> <p id="loadable_sheet_team_number" style=""></p> <p id="loadable_sheet_match_number" style=""></p>  </h3> <br><br>
+							<h3> <p id="loadable_sheet_team_number" style=""></p> <p id="loadable_sheet_match_number" style=""></p> <p id="loadable_sheet_scout_name" style=""></p </h3> <br><br>
               <iron-label for="groundpickup">
           			Ground Pickup? &nbsp;&nbsp;&nbsp;
           		</iron-label>
@@ -204,6 +205,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 						var match = this.$.match_type.value + " " + this.$.match.value;
 						console.log("MATCH: " + match);
             var team = this.$.team.value;
+            var scoutName = this.$.scoutName.value;
 
 						// First fill our form with its default values, clean slate
     				this.$.groundpickup_gears.checked = false;
@@ -250,7 +252,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 										this.$.comments.value = data.comments;
 								},
 			 					error: function(data) {
-										this.set_notif_error_message("ERROR: Did not load data, " 
+										this.set_notif_error_message("ERROR: Did not load data, "
 													+ "prior data might exist, and you will OVERWRITE it."
                           + "Be wary when uploading");
 								}
@@ -261,6 +263,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             //this.$.load_sheet_button.style.display="none";
 				    this.$.loadable_sheet_team_number.innerHTML = "Team " + team;
 				    this.$.loadable_sheet_match_number.innerHTML = match;
+            this.$.loadable_sheet_scout_name.innerHTML = "Scout Name: " + scoutName;
         }
 
 				close_data() {
@@ -274,6 +277,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       			var info = {
         				match_number: this.$.match_type.value + " " + this.$.match.value,
         				team_number: this.$.team.value,
+                scout_name: this.$.scoutName.value,
 								ground_pickup_gear: this.$.groundpickup_gears.checked  ? 1 : 0,
 								ground_pickup_fuel: this.$.groundpickup_fuel.checked  ? 1 : 0,
 								fuel_scoring_high: this.$.fscore_high.checked  ? 1 : 0,
