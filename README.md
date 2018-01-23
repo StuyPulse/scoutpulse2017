@@ -4,10 +4,6 @@ Welcome!
 
 This is a project for Team 694's electronic scouting app.
 
-## Official Site
-
-Official site is accessable through [scout.stuypulse.com](https://scout.stuypulse.com)
-
 
 ## Deploying
 
