@@ -1,5 +1,8 @@
 # scoutpulse
 
+## old-simple:
+This branch contains the old, library-less version of the app
+
 Welcome!
 
 This is a project for Team 694's electronic scouting app.
